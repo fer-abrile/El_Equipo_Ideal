@@ -7,11 +7,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -20,14 +15,16 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.border.EtchedBorder;
-
-
+import javax.swing.table.DefaultTableModel;
 import personas.Persona;
-
 import javax.swing.JTable;
+import java.awt.Color;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class MainForm {
 
@@ -41,7 +38,15 @@ public class MainForm {
 	private JTable tableRequrimientosCreados;
 	static DefaultListModel<String> DLM_Personas = new DefaultListModel<String>();
 	static DefaultListModel<String> DLM_Incompatibilidades = new DefaultListModel<String>();
-
+	static DefaultTableModel DTM_Requerimientos = new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre del Proyecto", "Lider del Proyecto", "Arquitecto", "Programdor", "Tester"
+			}
+		);
+	
+	
 	/**
 	 * Launch the application.
 	 *
@@ -50,8 +55,7 @@ public class MainForm {
 	 * @param personas 
 	 */
 	public MainForm(List<Persona> personas, List<String[]> incompatibilidades) {
-		
-	//	Controlador new Controladro(personas,incompatibilidades,)
+
 		initialize();
 	}
 
@@ -61,7 +65,6 @@ public class MainForm {
 	private void initialize() {
 		EquipoIdealForm = new JFrame();
 		EquipoIdealForm.setTitle("Equipo Ideal 2.0");
-		EquipoIdealForm.setAlwaysOnTop(true);
 		EquipoIdealForm.setResizable(false);
 		EquipoIdealForm.setBounds(100, 100, 714, 522);
 		EquipoIdealForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -158,6 +161,7 @@ public class MainForm {
 		panelNuevaIncompatibilidad.add(btnAtrasIncom);
 		
 		JList listaIncompatibilidadesCreadas = new JList();
+		listaIncompatibilidadesCreadas.setModel(DLM_Incompatibilidades);
 		listaIncompatibilidadesCreadas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		listaIncompatibilidadesCreadas.setBounds(328, 80, 274, 235);
 		panelNuevaIncompatibilidad.add(listaIncompatibilidadesCreadas);
@@ -174,7 +178,7 @@ public class MainForm {
 		
 		JPanel panelNuevoRequerimiento = new JPanel();
 		panelNuevoRequerimiento.setLayout(null);
-		panelNuevoRequerimiento.setBounds(10, 11, 651, 411);
+		panelNuevoRequerimiento.setBounds(10, 11, 678, 411);
 		panelNuevoRequerimiento.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevoRequerimiento);
 		
@@ -250,24 +254,27 @@ public class MainForm {
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(286, 82, 355, 271);
+		panel.setBounds(286, 82, 382, 271);
 		panelNuevoRequerimiento.add(panel);
 		panel.setLayout(null);
-		
-		tableRequrimientosCreados = new JTable();
-		tableRequrimientosCreados.setBounds(23, 253, 322, -190);
-		panel.add(tableRequrimientosCreados);
 		
 		JLabel lblProyectosCreados = new JLabel("Proyectos Creados");
 		lblProyectosCreados.setBounds(10, 11, 133, 14);
 		panel.add(lblProyectosCreados);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 36, 362, 224);
+		panel.add(scrollPane);
+		
+		tableRequrimientosCreados = new JTable();
+		scrollPane.setViewportView(tableRequrimientosCreados);
+		tableRequrimientosCreados.setModel(DTM_Requerimientos);
+		tableRequrimientosCreados.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		tableRequrimientosCreados.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		tableRequrimientosCreados.setBackground(Color.WHITE);
+		
 		JButton btnRequerimientoCancelar = new JButton("Cancelar");
-		btnRequerimientoCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelNuevoRequerimiento.setVisible(false);
-			}
-		});
+
 		btnRequerimientoCancelar.setBounds(552, 377, 89, 23);
 		panelNuevoRequerimiento.add(btnRequerimientoCancelar);
 		
@@ -294,6 +301,7 @@ public class MainForm {
 				panelNuevaPersona.setVisible(false);
 				panelNuevoRequerimiento.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(true);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
 		mnNuevo.add(mntmNuevaIncompatibilidad);
@@ -304,6 +312,7 @@ public class MainForm {
 				panelNuevaPersona.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(true);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
 		mnNuevo.add(mntmNuevoRequerimientos);
@@ -321,17 +330,22 @@ public class MainForm {
 		JMenuItem mntmGenerarEquipo = new JMenuItem("Generar Equipo Ideal");
 		mnGenerarEquipoMenu.add(mntmGenerarEquipo);
 		
-		//Action Listener Paneles
 		
 		
+		//Action Listener Paneles		
 		//  NUEVA PERSONAS ///
 		
 		btnGuardarPersona.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				try {
 				Persona persona = new Persona();
-				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString() , comboCalifHistorica.getSelectedIndex());
+				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString() , comboCalifHistorica.getSelectedIndex(),DLM_Personas);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
-				listaPersonasCreadas.setModel(Controlador.crearModelPersonas(DLM_Personas));
+				}
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Ooooppss!",JOptionPane.ERROR_MESSAGE);
+				}
 				
 			}
 		});
@@ -346,6 +360,7 @@ public class MainForm {
 		btnAtrasPersona.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelNuevaPersona.setVisible(false);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
 		
@@ -353,12 +368,12 @@ public class MainForm {
 	//  INCOMPATIBILIDADES ///
 		
 		btnAgregarPersonasIncom.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {System.out.println("Nombre Persona en Personas segun Seleccionado: " +Controlador.getPersonas().get(listaPersonasCreadas.getSelectedIndex()).getNombre());
+			public void actionPerformed(ActionEvent e) {
+				//System.out.println("Nombre Persona en Personas segun Seleccionado: " +Controlador.getPersonas().get(listaPersonasCreadas.getSelectedIndex()).getNombre());
 					int[] seleccionado = listaPersonasCreadas.getSelectedIndices();
 	
 					if(Controlador.getPersonas().size() >= 2) {
-						Controlador.crearIncompatibilidad(seleccionado);	
-						listaIncompatibilidadesCreadas.setModel(Controlador.crearModelIncompatibilidades(DLM_Incompatibilidades));
+						Controlador.crearIncompatibilidad(seleccionado,DLM_Incompatibilidades);	
 					}else {
 						JOptionPane.showMessageDialog(null, "Necesita seleccionar 2 Personas", "Error!",
 								JOptionPane.ERROR_MESSAGE);
@@ -372,25 +387,37 @@ public class MainForm {
 		btnAtrasIncom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelNuevaIncompatibilidad.setVisible(false);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 				
 			}
 		});
-	}
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
+		
+		// REQUERIMIENTOS //
+		
+		btnRequerimientoLimpiar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.limpiarRequerimiento(textFieldNombreProyecto,textFieldLiderEquipoCant,textFieldArquitectoCant,textFieldProgramadorCant,textFieldTesterCant);
+			}
+		});
+		
+		btnRequerimientoCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelNuevoRequerimiento.setVisible(false);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+			}
+		});
+		btnRequerimientoGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String [] data = {textFieldNombreProyecto.getText(),textFieldLiderEquipoCant.getText(),textFieldArquitectoCant.getText(),textFieldProgramadorCant.getText(),textFieldTesterCant.getText()};
+					Controlador.guardarRequerimiento(Integer.parseInt(textFieldLiderEquipoCant.getText()),Integer.parseInt(textFieldArquitectoCant.getText()),
+							Integer.parseInt(textFieldProgramadorCant.getText()),Integer.parseInt(textFieldTesterCant.getText()),DTM_Requerimientos,data);
+					Controlador.limpiarRequerimiento(textFieldNombreProyecto,textFieldLiderEquipoCant,textFieldArquitectoCant,textFieldProgramadorCant,textFieldTesterCant);
+				
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Ooooppss!",JOptionPane.ERROR_MESSAGE);
 				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
 				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
 		});
 	}
 }

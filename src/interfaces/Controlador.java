@@ -5,13 +5,16 @@ import java.awt.event.MouseListener;
 import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.table.DefaultTableModel;
 
 import personas.Persona;
 
@@ -19,6 +22,7 @@ public class Controlador implements MouseListener{
 	private MainForm ventana;
 	private static List<Persona> personas = new ArrayList<>();
     private static List<String[]> incompatibilidades = new ArrayList<>();
+    private static Map<String, Integer> rolesCantidades = new HashMap<>();
 
 
 
@@ -65,50 +69,56 @@ public class Controlador implements MouseListener{
 		
 	}
 
-	public static Persona crearPersona(Persona persona, String nombre, String rol, int calificaion) {
-		
-		persona = new Persona (nombre, rol, calificaion);
-		persona.toString();
-		personas.add(persona);
+	public static Persona crearPersona(Persona persona, String nombre, String rol, int calificaion,DefaultListModel<String> dLM) {
+		boolean respuesta = bontonConfirmar();
+		if(respuesta ==true) {
+			persona = new Persona (nombre, rol, calificaion);
+			persona.toString();
+			personas.add(persona);
+			crearModelPersonas(dLM);
+			JOptionPane.showMessageDialog(null, persona.toString(), "Persona Creada",JOptionPane.INFORMATION_MESSAGE);
+		}
 		return persona;
 	}
 	
 	
-	public static ListModel<String> crearModelPersonas(DefaultListModel<String> dLM) {
-		int tamano = personas.size();
+	public static ListModel<String> crearModelPersonas(DefaultListModel<String> DLM) {
 		
+		int tamano = personas.size();		
 		final String[] vector = new String[tamano];
 		for (int conta = 0; conta < tamano; conta++) {
 			vector[conta] =  personas.get(conta).getNombre() + " - "
 					+ personas.get(conta).getRol() + " - " + personas.get(conta).getCalificacionHistorica();
-			if (!dLM.contains(vector[conta]))
-					dLM.addElement(vector[conta]);
+			if (!DLM.contains(vector[conta]))
+				DLM.addElement(vector[conta]);
 		}		
-		return dLM;
+		return DLM;
 	}
 	
-	public static ListModel<String> crearModelIncompatibilidades(DefaultListModel<String> dLM) {
-		int tamano = incompatibilidades.size();
+	public static ListModel<String> crearModelIncompatibilidades(DefaultListModel<String> DLM) {
 		
+		int tamano = incompatibilidades.size();		
 		final String[] vector = new String[tamano];
 		for (int conta = 0; conta < tamano; conta++) {
 			vector[conta] =  mostrarIncompatibilidad(conta,incompatibilidades);
-			if (!dLM.contains(vector[conta]))
-					dLM.addElement(vector[conta]);
+			if (!DLM.contains(vector[conta]))
+				DLM.addElement(vector[conta]);
 		}		
-		return dLM;
+		return DLM;
 	}
 
-
-
-	private static String mostrarIncompatibilidad(int conta, List<String[]> incompatibilidades2) {
-		String incompat = "";
-		
-		for (String[] strings : incompatibilidades2) {
-			incompat = Arrays.toString(strings);
+	public static void crearModeloRequerimientos(DefaultTableModel dTM_Requerimientos, String [] data) {
 			
-		}
+		dTM_Requerimientos.addRow(data);
 
+	}
+
+	private static String mostrarIncompatibilidad(int conta, List<String[]> incompatibilidades) {
+		
+		String incompat = "";
+		for (String[] strings : incompatibilidades) {
+			incompat = Arrays.toString(strings);			
+		}
 		return incompat;
 	}
 
@@ -124,19 +134,21 @@ public class Controlador implements MouseListener{
 
 
 
-	public static void crearIncompatibilidad(int[] seleccionado) {
-		String[] incompatibilidad = new String[2];		
-		for (Integer index : seleccionado) {
+	public static void crearIncompatibilidad(int[] posicionesSeleccionado,DefaultListModel<String> DLM) {
+		
+		String[] incompatibilidad = new String[2];
+		boolean respuesta = bontonConfirmar();
+		
+		if(respuesta == true) {
 			for(int i=0; i<incompatibilidad.length; i++) {
-				incompatibilidad[i] = personas.get(index).getNombre();
+				incompatibilidad[i] = personas.get(posicionesSeleccionado[i]).getNombre();
 			}
+				incompatibilidades.add(incompatibilidad);
+				incompatibilidades.toString();
+				crearModelIncompatibilidades(DLM);
 		}
-//		JOptionPane.showMessageDialog(null, LogicaLocalidad.listarLocalidades.get(seleccionado[i]).getNombre() +" conectada con: " + LogicaLocalidad.listarLocalidades.get(seleccionado[i+1]).getNombre(), "Conexión",JOptionPane.INFORMATION_MESSAGE);
-
-		incompatibilidades.add(incompatibilidad);
-		incompatibilidades.toString();
 	}
-	
+
 
 	public static List<Persona> getPersonas() {
 		return personas;
@@ -159,6 +171,54 @@ public class Controlador implements MouseListener{
 	public static void setIncompatibilidades(List<String[]> incompatibilidades) {
 		Controlador.incompatibilidades = incompatibilidades;
 	}
+	
+
+
+
+	public static void guardarRequerimiento(int liderEquipo, int arquitecto, int programador, int tester, DefaultTableModel DTM_Requerimientos, String[] data) {
+		
+		boolean respuesta = bontonConfirmar();
+	
+			if(respuesta ==true) {
+		        rolesCantidades.put("Líder de proyecto", liderEquipo);
+		        rolesCantidades.put("Arquitecto", arquitecto);
+		        rolesCantidades.put("Programador", programador);
+		        rolesCantidades.put("Tester", tester);
+		        crearModeloRequerimientos(DTM_Requerimientos,data);
+			}
+		
+				
+	}
+
+
+
+	public static void limpiarRequerimiento( JTextField textFieldNombreProyecto,JTextField textFieldLiderEquipoCant, JTextField textFieldArquitectoCant,
+			JTextField textFieldProgramadorCant, JTextField textFieldTesterCant) {
+		
+		textFieldNombreProyecto.setText("");
+		textFieldLiderEquipoCant.setText("");
+		textFieldArquitectoCant.setText("");
+		textFieldProgramadorCant.setText("");
+		textFieldTesterCant.setText("");		
+	}
+
+
+	public static boolean bontonConfirmar() {		
+		
+		int respuesta = JOptionPane.showConfirmDialog(null,"Confirme accion", "Confirmar", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			if(respuesta == JOptionPane.YES_OPTION) {
+				System.out.println(true);
+				return  true;
+			}else if (respuesta == JOptionPane.NO_OPTION) {
+				System.out.println(false);
+				return false;
+			}
+		
+		return false;
+		
+	}
+
+
 	
 	
 	
