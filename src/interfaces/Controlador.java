@@ -2,7 +2,6 @@ package interfaces;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,13 +15,16 @@ import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
 
+import algoritmo.EquipoIdealThread;
 import personas.Persona;
+import proyectos.Proyecto;
 
 public class Controlador implements MouseListener{
 	private MainForm ventana;
 	private static List<Persona> personas = new ArrayList<>();
     private static List<String[]> incompatibilidades = new ArrayList<>();
-    private static Map<String, Integer> rolesCantidades = new HashMap<>();
+   // private static Map<String, Integer> rolesCantidades = new HashMap<>();
+    private static Map<String, Proyecto> proyectosCreados = new HashMap<>();
 
 
 
@@ -198,16 +200,20 @@ public class Controlador implements MouseListener{
 
 
 
-	public static void guardarRequerimiento(int liderEquipo, int arquitecto, int programador, int tester, DefaultTableModel DTM_Requerimientos, String[] data) {
+	public static void guardarRequerimiento(String nombre, int liderEquipo, int arquitecto, int programador, int tester, DefaultTableModel DTM_Requerimientos, String[] data) {
 		
 		boolean respuesta = bontonConfirmar();
-	
-			if(respuesta ==true) {
-		        rolesCantidades.put("Líder de proyecto", liderEquipo);
-		        rolesCantidades.put("Arquitecto", arquitecto);
-		        rolesCantidades.put("Programador", programador);
-		        rolesCantidades.put("Tester", tester);
-		        crearModeloRequerimientos(DTM_Requerimientos,data);
+		if(respuesta ==true) {
+			
+			Proyecto proyectoAux = new Proyecto();
+			proyectoAux.setNombre(nombre);	
+			proyectoAux.getRolesCantidades().put("Lider de proyecto", liderEquipo);
+			proyectoAux.getRolesCantidades().put("Arquitecto", arquitecto);
+			proyectoAux.getRolesCantidades().put("Programador", programador);
+			proyectoAux.getRolesCantidades().put("Tester", tester);
+			proyectosCreados.put(nombre, proyectoAux);
+	        crearModeloRequerimientos(DTM_Requerimientos,data);
+	        System.out.println(proyectoAux.getRolesCantidades());
 			}
 		
 				
@@ -253,6 +259,45 @@ public class Controlador implements MouseListener{
 	
 		
 	}
+
+
+
+	public static void GenerarEquipo(Object valorSeleccionado) {
+		System.out.println(valorSeleccionado.toString());
+		System.out.println(	proyectosCreados.get(valorSeleccionado).toString());
+		
+		EquipoIdealThread equipoIdealThread = new EquipoIdealThread(personas, incompatibilidades, proyectosCreados.get(valorSeleccionado).getRolesCantidades());
+        Thread thread = new Thread(equipoIdealThread);
+        thread.start();
+
+        
+        try {
+            thread.join();
+            List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
+            
+            if (equipoIdeal.isEmpty()) {
+                System.out.println("No se encontro un equipo compatible.");
+            } else {
+                System.out.println("Equipo ideal encontrado:");
+                for (Persona persona : equipoIdeal) {
+                    System.out.println(persona);
+                }
+            }
+        } catch (InterruptedException e) {
+            // Manejar la excepcion si ocurre algun problema con el hilo
+        }
+		
+		
+	}
+
+
+
+	public static void verInfoProyecto(Object object) {
+		System.out.println("Parametro: " +object);
+		System.out.println(	proyectosCreados.get(object).toString());
+		
+	}
+
 
 
 

@@ -1,4 +1,4 @@
-package algoritmo;
+ package algoritmo;
 
 import java.util.*;
 import personas.Persona;

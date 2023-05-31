@@ -25,6 +25,9 @@ import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import java.awt.Choice;
+import java.awt.ScrollPane;
+import java.awt.Scrollbar;
 
 public class MainForm {
 
@@ -51,6 +54,7 @@ public class MainForm {
 	private JTextField textField_ConsultaNombre;
 	private JTextField textField_ConsultaRol;
 	private JTextField textField_ConsultaCalificacion;
+	private JTable tableEquipoProyectos;
 	
 	
 	/**
@@ -258,19 +262,19 @@ public class MainForm {
 		btnRequerimientoLimpiar.setBounds(172, 241, 82, 23);
 		panelRequerimientoDatos.add(btnRequerimientoLimpiar);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panel.setBounds(286, 82, 382, 271);
-		panelNuevoRequerimiento.add(panel);
-		panel.setLayout(null);
+		JPanel panelProyectosCreados = new JPanel();
+		panelProyectosCreados.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panelProyectosCreados.setBounds(286, 82, 382, 271);
+		panelNuevoRequerimiento.add(panelProyectosCreados);
+		panelProyectosCreados.setLayout(null);
 		
 		JLabel lblProyectosCreados = new JLabel("Proyectos Creados");
 		lblProyectosCreados.setBounds(10, 11, 133, 14);
-		panel.add(lblProyectosCreados);
+		panelProyectosCreados.add(lblProyectosCreados);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 36, 362, 224);
-		panel.add(scrollPane);
+		scrollPane.setBounds(10, 36, 362, 194);
+		panelProyectosCreados.add(scrollPane);
 		
 		tableRequrimientosCreados = new JTable();
 		scrollPane.setViewportView(tableRequrimientosCreados);
@@ -278,6 +282,10 @@ public class MainForm {
 		tableRequrimientosCreados.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		tableRequrimientosCreados.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		tableRequrimientosCreados.setBackground(Color.WHITE);
+		
+		JButton btnRequerimientoInfo = new JButton("Info");
+		btnRequerimientoInfo.setBounds(287, 240, 85, 21);
+		panelProyectosCreados.add(btnRequerimientoInfo);
 		
 		JButton btnRequerimientoCancelar = new JButton("Cancelar");
 
@@ -340,12 +348,12 @@ public class MainForm {
 		textField_ConsultaRol.setColumns(10);
 		
 		JLabel lblConsultaCalificacion = new JLabel("Calificacion");
-		lblConsultaCalificacion.setBounds(247, 106, 79, 14);
+		lblConsultaCalificacion.setBounds(247, 101, 79, 14);
 		panelConsultaPersona.add(lblConsultaCalificacion);
 		
 		textField_ConsultaCalificacion = new JTextField();
 		textField_ConsultaCalificacion.setEditable(false);
-		textField_ConsultaCalificacion.setBounds(313, 103, 46, 20);
+		textField_ConsultaCalificacion.setBounds(324, 95, 46, 20);
 		panelConsultaPersona.add(textField_ConsultaCalificacion);
 		textField_ConsultaCalificacion.setColumns(10);
 		
@@ -353,6 +361,30 @@ public class MainForm {
 
 		btnConsultaCancelar.setBounds(579, 377, 89, 23);
 		panelConsultaPersona.add(btnConsultaCancelar);
+		
+		JPanel panelGenerarEquipo = new JPanel();
+		panelGenerarEquipo.setVisible(false);
+		panelGenerarEquipo.setBounds(10, 11, 678, 411);
+		EquipoIdealForm.getContentPane().add(panelGenerarEquipo);
+		panelGenerarEquipo.setLayout(null);
+		
+		JScrollPane scrollPane_Proyectos = new JScrollPane();
+		scrollPane_Proyectos.setBounds(10, 10, 658, 130);
+		panelGenerarEquipo.add(scrollPane_Proyectos);
+		
+		tableEquipoProyectos = new JTable();
+		tableEquipoProyectos.setModel(DTM_Requerimientos);
+		scrollPane_Proyectos.setViewportView(tableEquipoProyectos);
+		
+		JButton btnGenerarEquipo = new JButton("Generar Equipo");
+
+		btnGenerarEquipo.setBounds(10, 150, 158, 21);
+		panelGenerarEquipo.add(btnGenerarEquipo);
+		
+		JButton btnGenerarEquipoAtras = new JButton("Atras");
+
+		btnGenerarEquipoAtras.setBounds(583, 380, 85, 21);
+		panelGenerarEquipo.add(btnGenerarEquipoAtras);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -378,6 +410,7 @@ public class MainForm {
 				panelNuevoRequerimiento.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(true);
 				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
@@ -390,6 +423,7 @@ public class MainForm {
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(true);
 				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
@@ -405,6 +439,7 @@ public class MainForm {
 				panelNuevaPersona.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				panelConsultaPersona.setVisible(true);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
@@ -415,6 +450,17 @@ public class MainForm {
 		menuBar.add(mnGenerarEquipoMenu);
 		
 		JMenuItem mntmGenerarEquipo = new JMenuItem("Generar Equipo Ideal");
+		mntmGenerarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelNuevaPersona.setVisible(false);
+				panelNuevaIncompatibilidad.setVisible(false);
+				panelNuevoRequerimiento.setVisible(false);
+				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(true);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+				Controlador.limpiarRequerimiento(textFieldNombreProyecto, textFieldLiderEquipoCant, textFieldArquitectoCant, textFieldProgramadorCant, textFieldTesterCant);
+			}
+		});
 		mnGenerarEquipoMenu.add(mntmGenerarEquipo);
 		
 		
@@ -494,7 +540,7 @@ public class MainForm {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					String [] data = {textFieldNombreProyecto.getText(),textFieldLiderEquipoCant.getText(),textFieldArquitectoCant.getText(),textFieldProgramadorCant.getText(),textFieldTesterCant.getText()};
-					Controlador.guardarRequerimiento(Integer.parseInt(textFieldLiderEquipoCant.getText()),Integer.parseInt(textFieldArquitectoCant.getText()),
+					Controlador.guardarRequerimiento(textFieldNombreProyecto.getText(),Integer.parseInt(textFieldLiderEquipoCant.getText()),Integer.parseInt(textFieldArquitectoCant.getText()),
 							Integer.parseInt(textFieldProgramadorCant.getText()),Integer.parseInt(textFieldTesterCant.getText()),DTM_Requerimientos,data);
 					Controlador.limpiarRequerimiento(textFieldNombreProyecto,textFieldLiderEquipoCant,textFieldArquitectoCant,textFieldProgramadorCant,textFieldTesterCant);
 				
@@ -502,6 +548,12 @@ public class MainForm {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "Ooooppss!",JOptionPane.ERROR_MESSAGE);
 				}
 				}
+		});
+		btnRequerimientoInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.verInfoProyecto(tableRequrimientosCreados.getValueAt(tableRequrimientosCreados.getSelectedRow(), 
+						0));
+			}
 		});
 		
 		// CONSULTA PERSONA //
@@ -518,5 +570,17 @@ public class MainForm {
 			}
 		});
 		
+		// GENERAR EQUIPO //
+		btnGenerarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.GenerarEquipo(tableEquipoProyectos.getValueAt(tableEquipoProyectos.getSelectedRow(),
+						0));
+			}
+		});
+		btnGenerarEquipoAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelGenerarEquipo.setVisible(false);
+			}
+		});
 	}
 }

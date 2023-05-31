@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Persona {
 	public static Object personasIncomaptibles;
-	int codigo;
     private String nombre;
     private String rol;
     private int calificacionHistorica;
