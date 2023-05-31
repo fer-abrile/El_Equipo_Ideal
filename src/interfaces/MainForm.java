@@ -150,13 +150,6 @@ public class MainForm {
 		lblAltaIncompatibilidades.setBounds(10, 11, 631, 36);
 		panelNuevaIncompatibilidad.add(lblAltaIncompatibilidades);
 		
-		JList listaPersonasCreadas = new JList();
-		listaPersonasCreadas.setModel(Controlador.crearModelPersonas(DLM_Personas));
-		listaPersonasCreadas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		listaPersonasCreadas.setToolTipText("Seleccione 2 (SOLO DOS) personas");
-		listaPersonasCreadas.setBounds(23, 80, 248, 235);
-		panelNuevaIncompatibilidad.add(listaPersonasCreadas);
-		
 		JButton btnGuardarPersona = new JButton("Guardar");		
 		btnGuardarPersona.setBounds(68, 350, 89, 23);
 		panelNuevaPersona.add(btnGuardarPersona);
@@ -185,6 +178,16 @@ public class MainForm {
 		lblIncomCreadas.setEnabled(false);
 		lblIncomCreadas.setBounds(328, 58, 274, 14);
 		panelNuevaIncompatibilidad.add(lblIncomCreadas);
+		
+		JScrollPane scrollPane_PersonasCreadas = new JScrollPane();
+		scrollPane_PersonasCreadas.setBounds(23, 80, 233, 235);
+		panelNuevaIncompatibilidad.add(scrollPane_PersonasCreadas);
+		
+		JList listaPersonasCreadas = new JList();
+		scrollPane_PersonasCreadas.setViewportView(listaPersonasCreadas);
+		listaPersonasCreadas.setModel(Controlador.crearModelPersonas(DLM_Personas));
+		listaPersonasCreadas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		listaPersonasCreadas.setToolTipText("Seleccione 2 (SOLO DOS) personas");
 		
 		JPanel panelNuevoRequerimiento = new JPanel();
 		panelNuevoRequerimiento.setLayout(null);
