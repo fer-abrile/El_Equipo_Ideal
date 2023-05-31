@@ -95,10 +95,33 @@ public class Controlador implements MouseListener{
 		return DLM;
 	}
 	
+
+	
+	public static DefaultListModel<String> crearModelIncompatibilidadesPorPersona(int personaSeleccionada,DefaultListModel<String> DLM_IncompatibilidadesPorPersona) {
+		
+		DefaultListModel<String> DLM_aux = new DefaultListModel<String>();
+		Persona personaConsulta = new Persona();
+		personaConsulta = personas.get(personaSeleccionada);
+		DLM_aux = DLM_IncompatibilidadesPorPersona;
+
+		int tamano = personaConsulta.getPersonasIncompatibles().size();
+
+		final String[] vector = new String[tamano];
+		for (int conta = 0; conta < tamano; conta++) {
+			vector[conta] = mostrarIncompatibilidad(conta, personaConsulta.getPersonasIncompatibles());
+			if (!DLM_aux.contains(vector[conta]))
+				DLM_aux.addElement(vector[conta]);
+		}
+		return DLM_aux;
+
+	}
+	 
+	
 	public static ListModel<String> crearModelIncompatibilidades(DefaultListModel<String> DLM) {
 		
 		int tamano = incompatibilidades.size();		
 		final String[] vector = new String[tamano];
+		
 		for (int conta = 0; conta < tamano; conta++) {
 			vector[conta] =  mostrarIncompatibilidad(conta,incompatibilidades);
 			if (!DLM.contains(vector[conta]))
@@ -117,7 +140,7 @@ public class Controlador implements MouseListener{
 		
 		String incompat = "";
 		for (String[] strings : incompatibilidades) {
-			incompat = Arrays.toString(strings);			
+			incompat = Arrays.toString(strings);	
 		}
 		return incompat;
 	}
@@ -136,19 +159,20 @@ public class Controlador implements MouseListener{
 
 	public static void crearIncompatibilidad(int[] posicionesSeleccionado,DefaultListModel<String> DLM) {
 		
+
 		String[] incompatibilidad = new String[2];
 		boolean respuesta = bontonConfirmar();
-		
-		if(respuesta == true) {
-			for(int i=0; i<incompatibilidad.length; i++) {
+
+		if (respuesta == true) {
+			for (int i = 0; i < incompatibilidad.length; i++) {
 				incompatibilidad[i] = personas.get(posicionesSeleccionado[i]).getNombre();
+				personas.get(posicionesSeleccionado[i]).getPersonasIncompatibles().add(incompatibilidad);
 			}
-				incompatibilidades.add(incompatibilidad);
-				incompatibilidades.toString();
-				crearModelIncompatibilidades(DLM);
+			incompatibilidades.add(incompatibilidad);					
+			crearModelIncompatibilidades(DLM);
+
 		}
 	}
-
 
 	public static List<Persona> getPersonas() {
 		return personas;
@@ -218,6 +242,23 @@ public class Controlador implements MouseListener{
 		
 	}
 
+
+
+	public static void ConsultaPersona(int selectedIndex, JTextField textField_ConsultaNombre, JTextField textField_ConsultaRol, JTextField textField_ConsultaCalificacion) {
+		Persona personaConsulta = new Persona();
+		
+		personaConsulta = personas.get(selectedIndex);
+		textField_ConsultaNombre.setText(personaConsulta.getNombre());
+		textField_ConsultaRol.setText(personaConsulta.getRol());
+		textField_ConsultaCalificacion.setText(String.valueOf(personaConsulta.getCalificacionHistorica()));
+	
+		
+	}
+
+
+
+
+	
 
 	
 	

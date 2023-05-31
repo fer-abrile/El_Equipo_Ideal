@@ -1,10 +1,15 @@
 package personas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Persona {
+	public static Object personasIncomaptibles;
 	int codigo;
     private String nombre;
     private String rol;
     private int calificacionHistorica;
+    private List<String[]> personasIncompatibles =  new ArrayList<>();
 
     public Persona(String nombre, String rol, int calificacionHistorica) {
         this.nombre = nombre;
@@ -27,7 +32,9 @@ public class Persona {
         return rol;
     }
     
-    public int getCalificacionHistorica() {
+   
+
+	public int getCalificacionHistorica() {
         return calificacionHistorica;
     }
 
@@ -42,5 +49,13 @@ public class Persona {
 		builder.append(calificacionHistorica);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public List<String[]> getPersonasIncompatibles() {
+		return personasIncompatibles;
+	}
+
+	public void setPersonasIncompatibles(List<String[]> personasIncompatibles) {
+		this.personasIncompatibles = personasIncompatibles;
 	}
 }

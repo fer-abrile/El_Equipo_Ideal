@@ -36,8 +36,11 @@ public class MainForm {
 	private JTextField textFieldTesterCant;
 	private JTextField textFieldNombreProyecto;
 	private JTable tableRequrimientosCreados;
+
 	static DefaultListModel<String> DLM_Personas = new DefaultListModel<String>();
 	static DefaultListModel<String> DLM_Incompatibilidades = new DefaultListModel<String>();
+	static DefaultListModel<String> DLM_IncompatibilidadesPorPersona = new DefaultListModel<String>();
+	
 	static DefaultTableModel DTM_Requerimientos = new DefaultTableModel(
 			new Object[][] {
 			},
@@ -45,6 +48,9 @@ public class MainForm {
 				"Nombre del Proyecto", "Lider del Proyecto", "Arquitecto", "Programdor", "Tester"
 			}
 		);
+	private JTextField textField_ConsultaNombre;
+	private JTextField textField_ConsultaRol;
+	private JTextField textField_ConsultaCalificacion;
 	
 	
 	/**
@@ -278,6 +284,76 @@ public class MainForm {
 		btnRequerimientoCancelar.setBounds(552, 377, 89, 23);
 		panelNuevoRequerimiento.add(btnRequerimientoCancelar);
 		
+		JPanel panelConsultaPersona = new JPanel();
+		panelConsultaPersona.setVisible(false);
+		panelConsultaPersona.setBounds(10, 11, 678, 411);
+		EquipoIdealForm.getContentPane().add(panelConsultaPersona);
+		panelConsultaPersona.setLayout(null);
+		
+		JList listPersonasCreadas = new JList();
+		listPersonasCreadas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		listPersonasCreadas.setModel(DLM_Personas);
+		listPersonasCreadas.setBackground(Color.WHITE);
+		listPersonasCreadas.setBounds(10, 37, 169, 283);
+		panelConsultaPersona.add(listPersonasCreadas);
+		
+		JButton btnVerInfo = new JButton("Ver Info");
+
+		btnVerInfo.setBounds(86, 327, 89, 23);
+		panelConsultaPersona.add(btnVerInfo);
+		
+		JList listaConsultaIncompatibilidad = new JList();
+		listaConsultaIncompatibilidad.setModel(DLM_IncompatibilidadesPorPersona);
+		listaConsultaIncompatibilidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		listaConsultaIncompatibilidad.setBackground(Color.WHITE);
+		listaConsultaIncompatibilidad.setBounds(247, 203, 292, 117);
+		panelConsultaPersona.add(listaConsultaIncompatibilidad);
+		
+		JLabel lblPersonasCreadas = new JLabel("Personas Creadas");
+		lblPersonasCreadas.setEnabled(false);
+		lblPersonasCreadas.setBounds(10, 11, 169, 14);
+		panelConsultaPersona.add(lblPersonasCreadas);
+		
+		JLabel lblIncomPersona = new JLabel("Personas Incompatibles");
+		lblIncomPersona.setEnabled(false);
+		lblIncomPersona.setBounds(247, 185, 169, 14);
+		panelConsultaPersona.add(lblIncomPersona);
+		
+		JLabel lblConsultaNombre = new JLabel("Nombre");
+		lblConsultaNombre.setBounds(247, 38, 46, 14);
+		panelConsultaPersona.add(lblConsultaNombre);
+		
+		textField_ConsultaNombre = new JTextField();
+		textField_ConsultaNombre.setEditable(false);
+		textField_ConsultaNombre.setBounds(303, 35, 174, 20);
+		panelConsultaPersona.add(textField_ConsultaNombre);
+		textField_ConsultaNombre.setColumns(10);
+		
+		JLabel lblConsultaRol = new JLabel("Rol");
+		lblConsultaRol.setBounds(247, 71, 46, 14);
+		panelConsultaPersona.add(lblConsultaRol);
+		
+		textField_ConsultaRol = new JTextField();
+		textField_ConsultaRol.setEditable(false);
+		textField_ConsultaRol.setBounds(303, 65, 174, 20);
+		panelConsultaPersona.add(textField_ConsultaRol);
+		textField_ConsultaRol.setColumns(10);
+		
+		JLabel lblConsultaCalificacion = new JLabel("Calificacion");
+		lblConsultaCalificacion.setBounds(247, 106, 79, 14);
+		panelConsultaPersona.add(lblConsultaCalificacion);
+		
+		textField_ConsultaCalificacion = new JTextField();
+		textField_ConsultaCalificacion.setEditable(false);
+		textField_ConsultaCalificacion.setBounds(313, 103, 46, 20);
+		panelConsultaPersona.add(textField_ConsultaCalificacion);
+		textField_ConsultaCalificacion.setColumns(10);
+		
+		JButton btnConsultaCancelar = new JButton("Cancelar");
+
+		btnConsultaCancelar.setBounds(579, 377, 89, 23);
+		panelConsultaPersona.add(btnConsultaCancelar);
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 		EquipoIdealForm.setJMenuBar(menuBar);
@@ -321,8 +397,17 @@ public class MainForm {
 		mnConsultar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		menuBar.add(mnConsultar);
 		
-		JMenuItem mntmConsultarrPersona = new JMenuItem("Consultar Persona");
-		mnConsultar.add(mntmConsultarrPersona);
+		JMenuItem mntmConsultarPersona = new JMenuItem("Consultar Persona");
+		mntmConsultarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelNuevaPersona.setVisible(false);
+				panelNuevaIncompatibilidad.setVisible(false);
+				panelNuevoRequerimiento.setVisible(false);
+				panelConsultaPersona.setVisible(true);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+			}
+		});
+		mnConsultar.add(mntmConsultarPersona);
 		
 		JMenu mnGenerarEquipoMenu = new JMenu("Generar");
 		menuBar.add(mnGenerarEquipoMenu);
@@ -369,8 +454,7 @@ public class MainForm {
 		
 		btnAgregarPersonasIncom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//System.out.println("Nombre Persona en Personas segun Seleccionado: " +Controlador.getPersonas().get(listaPersonasCreadas.getSelectedIndex()).getNombre());
-					int[] seleccionado = listaPersonasCreadas.getSelectedIndices();
+				int[] seleccionado = listaPersonasCreadas.getSelectedIndices();
 	
 					if(Controlador.getPersonas().size() >= 2) {
 						Controlador.crearIncompatibilidad(seleccionado,DLM_Incompatibilidades);	
@@ -378,8 +462,6 @@ public class MainForm {
 						JOptionPane.showMessageDialog(null, "Necesita seleccionar 2 Personas", "Error!",
 								JOptionPane.ERROR_MESSAGE);
 					}
-					
-					
 			
 			}
 		});
@@ -419,5 +501,20 @@ public class MainForm {
 				}
 				}
 		});
+		
+		// CONSULTA PERSONA //
+		btnVerInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				Controlador.ConsultaPersona(listPersonasCreadas.getSelectedIndex(),textField_ConsultaNombre,textField_ConsultaRol,textField_ConsultaCalificacion);
+				Controlador.crearModelIncompatibilidadesPorPersona(listPersonasCreadas.getSelectedIndex(),DLM_IncompatibilidadesPorPersona);
+			}
+		});
+		
+		btnConsultaCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelConsultaPersona.setVisible(false);
+			}
+		});
+		
 	}
 }
