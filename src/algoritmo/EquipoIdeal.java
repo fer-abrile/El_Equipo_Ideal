@@ -12,14 +12,12 @@ public class EquipoIdeal {
         Map<String, Integer> rolActualCount = new HashMap<>();
         
         Collections.sort(personas, Comparator.comparingInt(Persona::getCalificacionHistorica).reversed());
-        System.out.println("Se pasan por parametro: " +roles.size() + " roles " + roles.toString());
-        System.out.println("\n");
-        System.out.println("Se pasan por parametro: " +personas.size() + " Personas "+"\n" + personas.toString() +"\n");
+     
         for (Persona persona : personas) {
             String rol = persona.getRol();
             rolActualCount.put(rol, 0);
         }
-        System.out.println("Se crea rolActualCount: " +rolActualCount.size() + " roles requeridos " + rolActualCount.toString() +"\n");
+    
         backtrack(personas, incompatibilidades, roles, equipoOptimo, equipoActual, rolActualCount, 0);
         
         Collections.sort(equipoOptimo, Comparator.comparing(Persona::getRol));
@@ -30,6 +28,7 @@ public class EquipoIdeal {
     private static void backtrack(List<Persona> personas, List<String[]> incompatibilidades, Map<String, Integer> cantidadesRoles, List<Persona> equipoOptimo, 
     								List<Persona> equipoActual, Map<String, Integer> rolActualCount, int indice) {
     	
+
         if (indice == personas.size()) {
             if (equipoActual.size() > equipoOptimo.size()) {
                 equipoOptimo.clear();

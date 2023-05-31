@@ -108,7 +108,7 @@ public class MainForm {
 		panelNuevaPersona.add(lblRol);
 		
 		JComboBox comboRol = new JComboBox();
-		comboRol.setModel(new DefaultComboBoxModel(new String[] {"", "Lider de Proyecto", "Arquitecto", "Programador", "Tester"}));
+		comboRol.setModel(new DefaultComboBoxModel(new String[] {"", "Líder de Proyecto", "Arquitecto", "Programador", "Tester"}));
 		comboRol.setBounds(154, 160, 146, 22);
 		panelNuevaPersona.add(comboRol);
 		
@@ -476,7 +476,8 @@ public class MainForm {
 				
 				try {
 				Persona persona = new Persona();
-				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString() , comboCalifHistorica.getSelectedIndex(),DLM_Personas);
+				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString(), comboCalifHistorica.getSelectedIndex(),DLM_Personas);
+				System.out.println("Rol creado> "+comboRol.getSelectedItem().toString());
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 				}
 				catch (Exception ex) {

@@ -185,15 +185,10 @@ public class Controlador implements MouseListener{
 		if(respuesta ==true) {			
 			Proyecto proyectoAux = new Proyecto();
 			proyectoAux.setNombre(nombre);				
-			proyectoAux.getRolesCantidades().put("Lider de proyecto", liderEquipo);
+			proyectoAux.getRolesCantidades().put("Líder de Proyecto", liderEquipo);
 			proyectoAux.getRolesCantidades().put("Arquitecto", arquitecto);
 			proyectoAux.getRolesCantidades().put("Programador", programador);
 			proyectoAux.getRolesCantidades().put("Tester", tester);
-			
-			System.out.println("Lider de proyecto: "+ liderEquipo);
-			System.out.println("Arquitecto: "+ arquitecto);
-			System.out.println("Programador: "+ programador);
-			System.out.println("Tester: "+ tester);
 			proyectosCreados.put(nombre, proyectoAux);
 	        crearModeloRequerimientos(DTM_Requerimientos,data);
 			}
