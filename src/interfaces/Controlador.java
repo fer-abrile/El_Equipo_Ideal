@@ -99,20 +99,19 @@ public class Controlador implements MouseListener{
 	
 	public static DefaultListModel<String> crearModelIncompatibilidadesPorPersona(int personaSeleccionada,DefaultListModel<String> DLM_IncompatibilidadesPorPersona) {
 		
-		DefaultListModel<String> DLM_aux = new DefaultListModel<String>();
+		DLM_IncompatibilidadesPorPersona.removeAllElements();
 		Persona personaConsulta = new Persona();
 		personaConsulta = personas.get(personaSeleccionada);
-		DLM_aux = DLM_IncompatibilidadesPorPersona;
 
 		int tamano = personaConsulta.getPersonasIncompatibles().size();
 
 		final String[] vector = new String[tamano];
 		for (int conta = 0; conta < tamano; conta++) {
 			vector[conta] = mostrarIncompatibilidad(conta, personaConsulta.getPersonasIncompatibles());
-			if (!DLM_aux.contains(vector[conta]))
-				DLM_aux.addElement(vector[conta]);
+			if (!DLM_IncompatibilidadesPorPersona.contains(vector[conta]))
+				DLM_IncompatibilidadesPorPersona.addElement(vector[conta]);
 		}
-		return DLM_aux;
+		return DLM_IncompatibilidadesPorPersona;
 
 	}
 	 

@@ -377,6 +377,7 @@ public class MainForm {
 				panelNuevaPersona.setVisible(false);
 				panelNuevoRequerimiento.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(true);
+				panelConsultaPersona.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
@@ -388,6 +389,7 @@ public class MainForm {
 				panelNuevaPersona.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(true);
+				panelConsultaPersona.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
 		});
