@@ -18,7 +18,28 @@ public class EquipoIdeal {
 
         backtrack(personas, incompatibilidades, roles, equipoOptimo, equipoActual, rolActualCount, 0);
         
-        Collections.sort(equipoOptimo, Comparator.comparing(Persona::getRol));
+        Collections.sort(equipoOptimo, new Comparator<Persona>() {
+        	@Override
+        	public int compare(Persona persona1, Persona persona2) {
+        		return valorRol(persona1.getRol()) - valorRol(persona2.getRol());
+        	}
+        	
+        	private int valorRol(String rol) {
+        		switch(rol) {
+        			case "Líder de proyecto":
+        				return 1;
+        			case "Arquitecto":
+        				return 2;
+        			case "Programador":
+        				return 3;
+        			default:
+        				return 4;
+        		}
+        	}
+        	
+        });
+        
+        //Collections.sort(equipoOptimo, Comparator.comparing(Persona::getRol));
         
         return equipoOptimo;
     }
