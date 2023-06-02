@@ -1,9 +1,14 @@
 package personas;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Persona {
-    private String nombre;
+	public static Object personasIncomaptibles;
+   
+	private String nombre;
     private String rol;
     private int calificacionHistorica;
+    private List<String[]> personasIncompatibles =  new ArrayList<>();
 
     public Persona(String nombre, String rol, int calificacionHistorica) {
     	if(nombre.length() < 1)
@@ -17,17 +22,10 @@ public class Persona {
         this.calificacionHistorica = calificacionHistorica;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
+    public Persona() {
+		super();
+	}
 
-    public String getRol() {
-        return rol;
-    }
-    
-    public int getCalificacionHistorica() {
-        return calificacionHistorica;
-    }
 
 	@Override
 	public String toString() {
@@ -41,4 +39,38 @@ public class Persona {
 		builder.append("]");
 		return builder.toString();
 	}
+
+	public List<String[]> getPersonasIncompatibles() {
+		return personasIncompatibles;
+	}
+
+	public void setPersonasIncompatibles(List<String[]> personasIncompatibles) {
+		this.personasIncompatibles = personasIncompatibles;
+	}
+	
+
+	public String getNombre() {
+        return nombre;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+    
+    public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
+	public void setCalificacionHistorica(int calificacionHistorica) {
+		this.calificacionHistorica = calificacionHistorica;
+	}
+
+   
+	public int getCalificacionHistorica() {
+        return calificacionHistorica;
+    }
 }

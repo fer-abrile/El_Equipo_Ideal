@@ -26,6 +26,7 @@ public class PruebaAlgoritmo {
 		personas.add(new Persona("Martin", "Tester", 3));
 		personas.add(new Persona("Jorge", "Tester", 1));
 		personas.add(new Persona("María", "Tester", 2));
+		personas.add(new Persona("Pablo", "Tester", 5));
 
         List<String[]> incompatibilidades = new ArrayList<>();
         incompatibilidades.add(new String[]{"Laura", "Martin"});
@@ -37,6 +38,7 @@ public class PruebaAlgoritmo {
         rolesCantidades.put("Programador", 4);
         rolesCantidades.put("Tester", 5);
         
+        System.out.println("CLASE PRUEBA ROLES !!!!!!!!!!!!!!!!!!!!!!   "+rolesCantidades.toString());
         EquipoIdealThread equipoIdealThread = new EquipoIdealThread(personas, incompatibilidades, rolesCantidades);
         Thread thread = new Thread(equipoIdealThread);
         thread.start();
@@ -48,6 +50,7 @@ public class PruebaAlgoritmo {
             
             if (equipoIdeal.isEmpty()) {
                 System.out.println("No se encontro un equipo compatible.");
+           
             } else {
                 System.out.println("Equipo ideal encontrado:");
                 for (Persona persona : equipoIdeal) {
