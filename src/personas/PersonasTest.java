@@ -1,10 +1,12 @@
 package personas;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
-class PersonaTest {
+class PersonasTest {
 
+	
 	@Test
 	public void nombreVacio() {
 		Exception exception = assertThrows(Exception.class, () -> new Persona("", "Líder de proyecto", 0));

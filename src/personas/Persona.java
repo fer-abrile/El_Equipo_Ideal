@@ -1,5 +1,4 @@
 package personas;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +11,11 @@ public class Persona {
     private List<String[]> personasIncompatibles =  new ArrayList<>();
 
     public Persona(String nombre, String rol, int calificacionHistorica) {
-        this.nombre = nombre;
+    	if(nombre.length() < 1)
+        	throw new IllegalArgumentException("La persona debe tener un nombre valido.");
+    	this.nombre = nombre;
+        if(rol.length() < 1)
+        	throw new IllegalArgumentException("La persona debe tener un rol valido.");
         this.rol = rol;
         if(calificacionHistorica > 5 || calificacionHistorica < 1)
         	throw new IllegalArgumentException("La calificacion historica debe ser mayor que 0 y menor o igual que 5.");
@@ -70,5 +73,4 @@ public class Persona {
 	public int getCalificacionHistorica() {
         return calificacionHistorica;
     }
-
 }
