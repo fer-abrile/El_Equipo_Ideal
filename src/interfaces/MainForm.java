@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -28,6 +29,10 @@ import javax.swing.JScrollPane;
 import java.awt.Choice;
 import java.awt.ScrollPane;
 import java.awt.Scrollbar;
+import javax.swing.JProgressBar;
+import javax.swing.JToolBar;
+import javax.swing.JLayeredPane;
+import java.awt.Image;
 
 public class MainForm {
 
@@ -51,10 +56,26 @@ public class MainForm {
 				"Nombre del Proyecto", "Lider del Proyecto", "Arquitecto", "Programdor", "Tester"
 			}
 		);
+	static DefaultTableModel DTM_PersonasCreadas = new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre", "Rol", "Calificacion Historica"
+			}
+		);
+	static DefaultTableModel DTM_EquipoIdeal = new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre", "Rol", "Calificacion Historica"
+			}
+		);
 	private JTextField textField_ConsultaNombre;
 	private JTextField textField_ConsultaRol;
 	private JTextField textField_ConsultaCalificacion;
 	private JTable tableEquipoProyectos;
+	private JTable tablePersonasCreadas;
+	private JTable tableEquipoIdeal;
 	
 	
 	/**
@@ -82,65 +103,26 @@ public class MainForm {
 		
 		final JPanel panelNuevaPersona = new JPanel();
 		panelNuevaPersona.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelNuevaPersona.setBounds(10, 11, 651, 411);
+		panelNuevaPersona.setBounds(10, 11, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelNuevaPersona);
 		panelNuevaPersona.setLayout(null);
 		panelNuevaPersona.setVisible(false);
 		
-		JLabel lblNuevaPersona = new JLabel("Alta Persona");
+		JLabel lblNuevaPersona = new JLabel("Nueva Persona");
 		lblNuevaPersona.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNuevaPersona.setBounds(10, 11, 631, 70);
+		lblNuevaPersona.setBounds(10, 11, 336, 53);
 		panelNuevaPersona.add(lblNuevaPersona);
-		
-		JLabel lblNombrePersona = new JLabel("Nombre");
-		lblNombrePersona.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNombrePersona.setBounds(10, 143, 60, 14);
-		panelNuevaPersona.add(lblNombrePersona);
-		
-		textNombrePersona = new JTextField();
-		textNombrePersona.setBounds(154, 137, 146, 20);
-		panelNuevaPersona.add(textNombrePersona);
-		textNombrePersona.setColumns(10);
-		
-		JLabel lblRol = new JLabel("Rol");
-		lblRol.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblRol.setBounds(10, 168, 46, 14);
-		panelNuevaPersona.add(lblRol);
-		
-		JComboBox comboRol = new JComboBox();
-		comboRol.setModel(new DefaultComboBoxModel(new String[] {"", "Líder de Proyecto", "Arquitecto", "Programador", "Tester"}));
-		comboRol.setBounds(154, 160, 146, 22);
-		panelNuevaPersona.add(comboRol);
-		
-		JComboBox comboCalifHistorica = new JComboBox();
-		comboCalifHistorica.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "5"}));
-		comboCalifHistorica.setBounds(154, 185, 60, 22);
-		
-		panelNuevaPersona.add(comboCalifHistorica);
-		
-	
-		
-		JButton btnLimpiarPersona = new JButton("Limpiar");
-
-		btnLimpiarPersona.setBounds(167, 350, 89, 23);
-		panelNuevaPersona.add(btnLimpiarPersona);
-		
-		JLabel lblCalifPersona = new JLabel("Calificación Historica");
-		lblCalifPersona.setHorizontalAlignment(SwingConstants.LEFT);
-		lblCalifPersona.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCalifPersona.setBounds(10, 193, 138, 14);
-		panelNuevaPersona.add(lblCalifPersona);
 		
 
 		
 		JButton btnAtrasPersona = new JButton("Atras");
-		btnAtrasPersona.setBounds(266, 350, 89, 23);
+		btnAtrasPersona.setBounds(579, 377, 89, 23);
 		panelNuevaPersona.add(btnAtrasPersona);
 		
 		final JPanel panelNuevaIncompatibilidad = new JPanel();
 		panelNuevaIncompatibilidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panelNuevaIncompatibilidad.setLayout(null);
-		panelNuevaIncompatibilidad.setBounds(10, 11, 651, 411);
+		panelNuevaIncompatibilidad.setBounds(10, 1100, 678, 411);
 		panelNuevaIncompatibilidad.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevaIncompatibilidad);
 		
@@ -150,9 +132,104 @@ public class MainForm {
 		lblAltaIncompatibilidades.setBounds(10, 11, 631, 36);
 		panelNuevaIncompatibilidad.add(lblAltaIncompatibilidades);
 		
-		JButton btnGuardarPersona = new JButton("Guardar");		
-		btnGuardarPersona.setBounds(68, 350, 89, 23);
-		panelNuevaPersona.add(btnGuardarPersona);
+		JPanel panelInfoPersonas = new JPanel();
+		panelInfoPersonas.setBounds(10, 257, 561, 106);
+		panelNuevaPersona.add(panelInfoPersonas);
+		panelInfoPersonas.setLayout(null);
+		
+		JScrollPane scrollPane_InfoPersonas = new JScrollPane();
+		scrollPane_InfoPersonas.setBounds(0, 0, 561, 106);
+		panelInfoPersonas.add(scrollPane_InfoPersonas);
+		
+		tablePersonasCreadas = new JTable();
+		tablePersonasCreadas.setEnabled(false);
+		tablePersonasCreadas.setRowSelectionAllowed(false);
+		tablePersonasCreadas.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		tablePersonasCreadas.setBackground(Color.WHITE);
+		tablePersonasCreadas.setModel(DTM_PersonasCreadas);
+		tablePersonasCreadas.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		scrollPane_InfoPersonas.setViewportView(tablePersonasCreadas);
+		
+		JPanel panelDatosPersona = new JPanel();
+		panelDatosPersona.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panelDatosPersona.setBounds(10, 64, 336, 172);
+		panelNuevaPersona.add(panelDatosPersona);
+		panelDatosPersona.setLayout(null);
+		
+		JButton btnGuardarPersona = new JButton("Guardar");
+		btnGuardarPersona.setBounds(138, 138, 89, 23);
+		panelDatosPersona.add(btnGuardarPersona);
+		
+	
+		
+		JButton btnLimpiarPersona = new JButton("Limpiar");
+		btnLimpiarPersona.setBounds(237, 138, 89, 23);
+		panelDatosPersona.add(btnLimpiarPersona);
+		
+		textNombrePersona = new JTextField();
+		textNombrePersona.setBounds(180, 11, 146, 20);
+		panelDatosPersona.add(textNombrePersona);
+		textNombrePersona.setColumns(10);
+		
+		JComboBox comboRol = new JComboBox();
+		comboRol.setBounds(180, 42, 146, 22);
+		panelDatosPersona.add(comboRol);
+		comboRol.setModel(new DefaultComboBoxModel(new String[] {"", "Líder de Proyecto", "Arquitecto", "Programador", "Tester"}));
+		
+		JComboBox comboCalifHistorica = new JComboBox();
+		comboCalifHistorica.setBounds(180, 75, 60, 22);
+		panelDatosPersona.add(comboCalifHistorica);
+		comboCalifHistorica.setModel(new DefaultComboBoxModel(new String[] {"", "1", "2", "3", "4", "5"}));
+		
+		JLabel lblCalifPersona = new JLabel("Calificación \r\nHistorica");
+		lblCalifPersona.setBounds(10, 83, 134, 14);
+		panelDatosPersona.add(lblCalifPersona);
+		lblCalifPersona.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCalifPersona.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblCalifPersona.setLabelFor(comboCalifHistorica);
+		
+		JLabel lblRol = new JLabel("Rol");
+		lblRol.setBounds(10, 50, 46, 14);
+		panelDatosPersona.add(lblRol);
+		lblRol.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		
+		JLabel lblNombrePersona = new JLabel("Nombre");
+		lblNombrePersona.setBounds(10, 17, 60, 14);
+		panelDatosPersona.add(lblNombrePersona);
+		lblNombrePersona.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnLimpiarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+			}
+		});
+		
+		
+		
+		//Action Listener Paneles		
+		
+		
+		//  NUEVA PERSONAS ///
+		
+		btnGuardarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					if(Controlador.formPersonaCompleto(textNombrePersona, comboRol, comboCalifHistorica)) {
+				Persona persona = new Persona();
+				String [] data = {textNombrePersona.getText(),comboRol.getSelectedItem().toString(),comboCalifHistorica.getSelectedItem().toString()};
+				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString(), comboCalifHistorica.getSelectedIndex(),DLM_Personas,DTM_PersonasCreadas,data);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Por favor complete todos los campos", "Error!",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Por favor complete todos los campos", "Ooooppss!",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 		JButton btnAgregarPersonasIncom = new JButton("Agregar");
 
 		btnAgregarPersonasIncom.setBounds(182, 326, 89, 23);
@@ -191,7 +268,7 @@ public class MainForm {
 		
 		JPanel panelNuevoRequerimiento = new JPanel();
 		panelNuevoRequerimiento.setLayout(null);
-		panelNuevoRequerimiento.setBounds(10, 11, 678, 411);
+		panelNuevoRequerimiento.setBounds(10, 1100, 678, 411);
 		panelNuevoRequerimiento.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevoRequerimiento);
 		
@@ -202,72 +279,72 @@ public class MainForm {
 		
 		JPanel panelRequerimientoDatos = new JPanel();
 		panelRequerimientoDatos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelRequerimientoDatos.setBounds(10, 82, 266, 271);
+		panelRequerimientoDatos.setBounds(10, 82, 220, 271);
 		panelNuevoRequerimiento.add(panelRequerimientoDatos);
 		panelRequerimientoDatos.setLayout(null);
 		
 		JLabel lblSeleccionRoles = new JLabel("Seleccione los roles necesarios para el equipo");
 		lblSeleccionRoles.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblSeleccionRoles.setEnabled(false);
-		lblSeleccionRoles.setBounds(10, 36, 276, 14);
+		lblSeleccionRoles.setBounds(10, 71, 276, 14);
 		panelRequerimientoDatos.add(lblSeleccionRoles);
 		
 		JLabel lblRequerimientoLiderEquipo = new JLabel("Lider de Equipo");
-		lblRequerimientoLiderEquipo.setBounds(10, 79, 95, 14);
+		lblRequerimientoLiderEquipo.setBounds(10, 96, 95, 14);
 		panelRequerimientoDatos.add(lblRequerimientoLiderEquipo);
 		
 		JLabel lblRequerimientoArquitecto = new JLabel("Arquitecto");
-		lblRequerimientoArquitecto.setBounds(10, 114, 77, 14);
+		lblRequerimientoArquitecto.setBounds(10, 131, 77, 14);
 		panelRequerimientoDatos.add(lblRequerimientoArquitecto);
 		
 		JLabel lblRequerimientoProgramador = new JLabel("Programador");
-		lblRequerimientoProgramador.setBounds(10, 151, 87, 14);
+		lblRequerimientoProgramador.setBounds(10, 168, 87, 14);
 		panelRequerimientoDatos.add(lblRequerimientoProgramador);
 		
 		JLabel lblRequerimientoTester = new JLabel("Tester");
-		lblRequerimientoTester.setBounds(10, 187, 46, 14);
+		lblRequerimientoTester.setBounds(10, 204, 46, 14);
 		panelRequerimientoDatos.add(lblRequerimientoTester);
 		
 		textFieldLiderEquipoCant = new JTextField();
-		textFieldLiderEquipoCant.setBounds(112, 73, 43, 20);
+		textFieldLiderEquipoCant.setBounds(112, 90, 43, 20);
 		panelRequerimientoDatos.add(textFieldLiderEquipoCant);
 		textFieldLiderEquipoCant.setColumns(10);
 		
 		textFieldArquitectoCant = new JTextField();
-		textFieldArquitectoCant.setBounds(112, 108, 43, 20);
+		textFieldArquitectoCant.setBounds(112, 125, 43, 20);
 		panelRequerimientoDatos.add(textFieldArquitectoCant);
 		textFieldArquitectoCant.setColumns(10);
 		
 		textFieldProgramadorCant = new JTextField();
-		textFieldProgramadorCant.setBounds(112, 145, 43, 20);
+		textFieldProgramadorCant.setBounds(112, 162, 43, 20);
 		panelRequerimientoDatos.add(textFieldProgramadorCant);
 		textFieldProgramadorCant.setColumns(10);
 		
 		textFieldTesterCant = new JTextField();
-		textFieldTesterCant.setBounds(112, 181, 43, 20);
+		textFieldTesterCant.setBounds(112, 198, 43, 20);
 		panelRequerimientoDatos.add(textFieldTesterCant);
 		textFieldTesterCant.setColumns(10);
 		
 		JLabel lblNombreProyecto = new JLabel("Nombre de proyecto");
-		lblNombreProyecto.setBounds(10, 11, 115, 14);
+		lblNombreProyecto.setBounds(10, 22, 115, 14);
 		panelRequerimientoDatos.add(lblNombreProyecto);
 		
 		textFieldNombreProyecto = new JTextField();
-		textFieldNombreProyecto.setBounds(139, 8, 115, 20);
+		textFieldNombreProyecto.setBounds(10, 40, 184, 20);
 		panelRequerimientoDatos.add(textFieldNombreProyecto);
 		textFieldNombreProyecto.setColumns(10);
 		
 		JButton btnRequerimientoGuardar = new JButton("Guardar");
-		btnRequerimientoGuardar.setBounds(66, 241, 89, 23);
+		btnRequerimientoGuardar.setBounds(10, 241, 89, 23);
 		panelRequerimientoDatos.add(btnRequerimientoGuardar);
 		
 		JButton btnRequerimientoLimpiar = new JButton("Limpiar");
-		btnRequerimientoLimpiar.setBounds(172, 241, 82, 23);
+		btnRequerimientoLimpiar.setBounds(112, 241, 82, 23);
 		panelRequerimientoDatos.add(btnRequerimientoLimpiar);
 		
 		JPanel panelProyectosCreados = new JPanel();
 		panelProyectosCreados.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelProyectosCreados.setBounds(286, 82, 382, 271);
+		panelProyectosCreados.setBounds(240, 82, 428, 271);
 		panelNuevoRequerimiento.add(panelProyectosCreados);
 		panelProyectosCreados.setLayout(null);
 		
@@ -276,7 +353,7 @@ public class MainForm {
 		panelProyectosCreados.add(lblProyectosCreados);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 36, 362, 194);
+		scrollPane.setBounds(10, 36, 408, 194);
 		panelProyectosCreados.add(scrollPane);
 		
 		tableRequrimientosCreados = new JTable();
@@ -287,17 +364,17 @@ public class MainForm {
 		tableRequrimientosCreados.setBackground(Color.WHITE);
 		
 		JButton btnRequerimientoInfo = new JButton("Info");
-		btnRequerimientoInfo.setBounds(287, 240, 85, 21);
+		btnRequerimientoInfo.setBounds(333, 239, 85, 21);
 		panelProyectosCreados.add(btnRequerimientoInfo);
 		
 		JButton btnRequerimientoCancelar = new JButton("Cancelar");
 
-		btnRequerimientoCancelar.setBounds(552, 377, 89, 23);
+		btnRequerimientoCancelar.setBounds(579, 377, 89, 23);
 		panelNuevoRequerimiento.add(btnRequerimientoCancelar);
 		
 		JPanel panelConsultaPersona = new JPanel();
 		panelConsultaPersona.setVisible(false);
-		panelConsultaPersona.setBounds(10, 11, 678, 411);
+		panelConsultaPersona.setBounds(10, 1100, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelConsultaPersona);
 		panelConsultaPersona.setLayout(null);
 		
@@ -372,22 +449,44 @@ public class MainForm {
 		panelGenerarEquipo.setLayout(null);
 		
 		JScrollPane scrollPane_Proyectos = new JScrollPane();
-		scrollPane_Proyectos.setBounds(10, 10, 658, 130);
+		scrollPane_Proyectos.setBounds(10, 10, 658, 102);
 		panelGenerarEquipo.add(scrollPane_Proyectos);
 		
 		tableEquipoProyectos = new JTable();
 		tableEquipoProyectos.setModel(DTM_Requerimientos);
 		scrollPane_Proyectos.setViewportView(tableEquipoProyectos);
 		
-		JButton btnGenerarEquipo = new JButton("Generar Equipo");
-
-		btnGenerarEquipo.setBounds(10, 150, 158, 21);
-		panelGenerarEquipo.add(btnGenerarEquipo);
-		
 		JButton btnGenerarEquipoAtras = new JButton("Atras");
 
 		btnGenerarEquipoAtras.setBounds(583, 380, 85, 21);
 		panelGenerarEquipo.add(btnGenerarEquipoAtras);
+		
+		JButton btnGenerarEquipo = new JButton("Generar Equipo");
+		btnGenerarEquipo.setBounds(538, 123, 130, 21);
+		panelGenerarEquipo.add(btnGenerarEquipo);
+		
+		JScrollPane scrollPane_EquipoIdeal = new JScrollPane();
+		scrollPane_EquipoIdeal.setVisible(false);
+		scrollPane_EquipoIdeal.setBounds(10, 168, 429, 214);
+		panelGenerarEquipo.add(scrollPane_EquipoIdeal);
+		
+		tableEquipoIdeal = new JTable();
+		tableEquipoIdeal.setModel(DTM_EquipoIdeal);
+		scrollPane_EquipoIdeal.setViewportView(tableEquipoIdeal);
+		
+		// GENERAR EQUIPO //
+		btnGenerarEquipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Controlador.GenerarEquipo(tableEquipoProyectos.getValueAt(tableEquipoProyectos.getSelectedRow(),0),DTM_EquipoIdeal);
+					scrollPane_EquipoIdeal.setVisible(true);
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Proyecto no seleccionado", "Error!",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -466,34 +565,6 @@ public class MainForm {
 		});
 		mnGenerarEquipoMenu.add(mntmGenerarEquipo);
 		
-		
-		
-		//Action Listener Paneles		
-		//  NUEVA PERSONAS ///
-		
-		btnGuardarPersona.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-				Persona persona = new Persona();
-				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString(), comboCalifHistorica.getSelectedIndex(),DLM_Personas);
-				System.out.println("Rol creado> "+comboRol.getSelectedItem().toString());
-				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
-				}
-				catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Ooooppss!",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		
-		
-		btnLimpiarPersona.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
-			}
-		});
-		
 		btnAtrasPersona.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelNuevaPersona.setVisible(false);
@@ -549,36 +620,39 @@ public class MainForm {
 					Controlador.limpiarRequerimiento(textFieldNombreProyecto,textFieldLiderEquipoCant,textFieldArquitectoCant,textFieldProgramadorCant,textFieldTesterCant);
 				
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "Ooooppss!",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Por favor, compelte todos los campos", "Error!",JOptionPane.ERROR_MESSAGE);
 				}
 				}
 		});
 		btnRequerimientoInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Controlador.verInfoProyecto(tableRequrimientosCreados.getValueAt(tableRequrimientosCreados.getSelectedRow(), 
-						0));
+				try {
+					Controlador.verInfoProyecto(tableRequrimientosCreados.getValueAt(tableRequrimientosCreados.getSelectedRow(), 
+							0));
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "Selección no válida", "Ooooppss!",JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		
 		// CONSULTA PERSONA //
 		btnVerInfo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {				
+			public void actionPerformed(ActionEvent e) {		
+			try {
 				Controlador.ConsultaPersona(listPersonasCreadas.getSelectedIndex(),textField_ConsultaNombre,textField_ConsultaRol,textField_ConsultaCalificacion);
 				Controlador.crearModelIncompatibilidadesPorPersona(listPersonasCreadas.getSelectedIndex(),DLM_IncompatibilidadesPorPersona);
+			}catch (Exception e2) {
+				JOptionPane.showMessageDialog(null, "Seleccione al menos una persona", "Error!",JOptionPane.ERROR_MESSAGE);
+				
+			}
+				
 			}
 		});
 		
 		btnConsultaCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelConsultaPersona.setVisible(false);
-			}
-		});
-		
-		// GENERAR EQUIPO //
-		btnGenerarEquipo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Controlador.GenerarEquipo(tableEquipoProyectos.getValueAt(tableEquipoProyectos.getSelectedRow(),
-						0));
 			}
 		});
 		btnGenerarEquipoAtras.addActionListener(new ActionListener() {

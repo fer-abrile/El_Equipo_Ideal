@@ -5,7 +5,9 @@ import java.util.List;
 
 import interfaces.MainForm;
 import personas.Persona;
-@SuppressWarnings("unused")
+
+import algoritmo.EquipoIdeal;
+
 public class main {
 
 	private static List<Persona> personas = new ArrayList<>();
@@ -15,8 +17,8 @@ public class main {
 		// TODO Auto-generated method stub
 	
 		MainForm ventana = new MainForm(personas, incompatibilidades);
-
 		ventana.EquipoIdealForm.setVisible(true);
+	
 	}
 
 }

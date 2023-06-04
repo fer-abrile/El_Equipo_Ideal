@@ -38,7 +38,6 @@ public class PruebaAlgoritmo {
         rolesCantidades.put("Programador", 4);
         rolesCantidades.put("Tester", 5);
         
-        System.out.println("CLASE PRUEBA ROLES !!!!!!!!!!!!!!!!!!!!!!   "+rolesCantidades.toString());
         EquipoIdealThread equipoIdealThread = new EquipoIdealThread(personas, incompatibilidades, rolesCantidades);
         Thread thread = new Thread(equipoIdealThread);
         thread.start();
