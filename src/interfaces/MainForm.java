@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -26,13 +25,7 @@ import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
-import java.awt.Choice;
-import java.awt.ScrollPane;
-import java.awt.Scrollbar;
-import javax.swing.JProgressBar;
-import javax.swing.JToolBar;
-import javax.swing.JLayeredPane;
-import java.awt.Image;
+
 
 public class MainForm {
 
@@ -44,6 +37,7 @@ public class MainForm {
 	private JTextField textFieldTesterCant;
 	private JTextField textFieldNombreProyecto;
 	private JTable tableRequrimientosCreados;
+	
 
 	static DefaultListModel<String> DLM_Personas = new DefaultListModel<String>();
 	static DefaultListModel<String> DLM_Incompatibilidades = new DefaultListModel<String>();
@@ -103,7 +97,7 @@ public class MainForm {
 		
 		final JPanel panelNuevaPersona = new JPanel();
 		panelNuevaPersona.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelNuevaPersona.setBounds(10, 11, 678, 411);
+		panelNuevaPersona.setBounds(10, 1100, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelNuevaPersona);
 		panelNuevaPersona.setLayout(null);
 		panelNuevaPersona.setVisible(false);
@@ -448,6 +442,7 @@ public class MainForm {
 		EquipoIdealForm.getContentPane().add(panelGenerarEquipo);
 		panelGenerarEquipo.setLayout(null);
 		
+				
 		JScrollPane scrollPane_Proyectos = new JScrollPane();
 		scrollPane_Proyectos.setBounds(10, 10, 658, 102);
 		panelGenerarEquipo.add(scrollPane_Proyectos);
@@ -462,24 +457,33 @@ public class MainForm {
 		panelGenerarEquipo.add(btnGenerarEquipoAtras);
 		
 		JButton btnGenerarEquipo = new JButton("Generar Equipo");
-		btnGenerarEquipo.setBounds(538, 123, 130, 21);
+		btnGenerarEquipo.setBounds(538, 123, 130, 34);
 		panelGenerarEquipo.add(btnGenerarEquipo);
 		
 		JScrollPane scrollPane_EquipoIdeal = new JScrollPane();
 		scrollPane_EquipoIdeal.setVisible(false);
-		scrollPane_EquipoIdeal.setBounds(10, 168, 429, 214);
-		panelGenerarEquipo.add(scrollPane_EquipoIdeal);
+		scrollPane_EquipoIdeal.setBounds(0, 5, 658, 139);
+	//	panelGenerarEquipo.add(scrollPane_EquipoIdeal);
 		
 		tableEquipoIdeal = new JTable();
 		tableEquipoIdeal.setModel(DTM_EquipoIdeal);
 		scrollPane_EquipoIdeal.setViewportView(tableEquipoIdeal);
+		
+		JPanel panelEquipoIdeal = new JPanel();
+		panelEquipoIdeal.setBounds(10, 189, 658, 170);
+		panelGenerarEquipo.add(panelEquipoIdeal);
+		panelEquipoIdeal.setLayout(null);
+		panelEquipoIdeal.setVisible(false);
+		panelEquipoIdeal.add(scrollPane_EquipoIdeal);
+		
+		
 		
 		// GENERAR EQUIPO //
 		btnGenerarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Controlador.GenerarEquipo(tableEquipoProyectos.getValueAt(tableEquipoProyectos.getSelectedRow(),0),DTM_EquipoIdeal);
-					scrollPane_EquipoIdeal.setVisible(true);
+					panelEquipoIdeal.setVisible(true);
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Proyecto no seleccionado", "Error!",
 							JOptionPane.ERROR_MESSAGE);
