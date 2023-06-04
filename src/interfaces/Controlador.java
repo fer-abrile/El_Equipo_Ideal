@@ -68,7 +68,7 @@ public class Controlador implements MouseListener{
 	}
 	
 	/*
-	 * Metodos Minimos para 
+	 * Metodos para 
 	 * Personas.
 	 * 
 	 */
@@ -103,7 +103,7 @@ public class Controlador implements MouseListener{
 	}
 
 	/*
-	 * Metodos Minimos para 
+	 * Metodos para 
 	 * Incompatibilidades.
 	 * 
 	 */
@@ -134,7 +134,7 @@ public class Controlador implements MouseListener{
 	}
 	
 	/*
-	 * Metodos Minimos para 
+	 * Metodos para 
 	 * Requerimientos.
 	 * Proyectos.
 	 * 
@@ -169,14 +169,13 @@ public class Controlador implements MouseListener{
 	}
 	
 	/*
-	 * Metodos Minimos para 
+	 * Metodos para 
 	 * Generar Equipo Ideal.
 	 * 
 	 */
 	
 	public static void GenerarEquipo(Object valorSeleccionado, DefaultTableModel DTM_EquipoIdeal) {
-		System.out.println(proyectosCreados.get(valorSeleccionado).getRolesCantidades().toString());
-		
+	
 		
         EquipoIdealThread equipoIdealThread = new EquipoIdealThread(personas, incompatibilidades, proyectosCreados.get(valorSeleccionado).getRolesCantidades());
         Thread thread = new Thread(equipoIdealThread);
@@ -266,7 +265,7 @@ public class Controlador implements MouseListener{
         for (Persona persona : equipoIdeal) {
         	String [] data = {persona.getNombre(),persona.getRol(),Integer.toString(persona.getCalificacionHistorica())};
         	DTM_PersonasCreadas.addRow(data);
-            System.out.println(persona);
+            
         }
 	}
 

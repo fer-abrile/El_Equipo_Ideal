@@ -97,7 +97,7 @@ public class MainForm {
 		
 		final JPanel panelNuevaPersona = new JPanel();
 		panelNuevaPersona.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelNuevaPersona.setBounds(10, 1100, 678, 411);
+		panelNuevaPersona.setBounds(10, 11, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelNuevaPersona);
 		panelNuevaPersona.setLayout(null);
 		panelNuevaPersona.setVisible(false);
@@ -116,7 +116,7 @@ public class MainForm {
 		final JPanel panelNuevaIncompatibilidad = new JPanel();
 		panelNuevaIncompatibilidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panelNuevaIncompatibilidad.setLayout(null);
-		panelNuevaIncompatibilidad.setBounds(10, 1100, 678, 411);
+		panelNuevaIncompatibilidad.setBounds(10, 11, 678, 411);
 		panelNuevaIncompatibilidad.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevaIncompatibilidad);
 		
@@ -262,7 +262,7 @@ public class MainForm {
 		
 		JPanel panelNuevoRequerimiento = new JPanel();
 		panelNuevoRequerimiento.setLayout(null);
-		panelNuevoRequerimiento.setBounds(10, 1100, 678, 411);
+		panelNuevoRequerimiento.setBounds(10, 11, 678, 411);
 		panelNuevoRequerimiento.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevoRequerimiento);
 		
@@ -368,7 +368,7 @@ public class MainForm {
 		
 		JPanel panelConsultaPersona = new JPanel();
 		panelConsultaPersona.setVisible(false);
-		panelConsultaPersona.setBounds(10, 1100, 678, 411);
+		panelConsultaPersona.setBounds(10, 11, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelConsultaPersona);
 		panelConsultaPersona.setLayout(null);
 		
@@ -444,7 +444,7 @@ public class MainForm {
 		
 				
 		JScrollPane scrollPane_Proyectos = new JScrollPane();
-		scrollPane_Proyectos.setBounds(10, 10, 658, 102);
+		scrollPane_Proyectos.setBounds(10, 28, 658, 102);
 		panelGenerarEquipo.add(scrollPane_Proyectos);
 		
 		tableEquipoProyectos = new JTable();
@@ -453,28 +453,42 @@ public class MainForm {
 		
 		JButton btnGenerarEquipoAtras = new JButton("Atras");
 
-		btnGenerarEquipoAtras.setBounds(583, 380, 85, 21);
+		btnGenerarEquipoAtras.setBounds(583, 390, 85, 21);
 		panelGenerarEquipo.add(btnGenerarEquipoAtras);
 		
 		JButton btnGenerarEquipo = new JButton("Generar Equipo");
-		btnGenerarEquipo.setBounds(538, 123, 130, 34);
+		btnGenerarEquipo.setBounds(538, 136, 130, 21);
 		panelGenerarEquipo.add(btnGenerarEquipo);
 		
 		JScrollPane scrollPane_EquipoIdeal = new JScrollPane();
-		scrollPane_EquipoIdeal.setVisible(false);
-		scrollPane_EquipoIdeal.setBounds(0, 5, 658, 139);
-	//	panelGenerarEquipo.add(scrollPane_EquipoIdeal);
+		
+		scrollPane_EquipoIdeal.setBounds(10, 37, 648, 139);
 		
 		tableEquipoIdeal = new JTable();
 		tableEquipoIdeal.setModel(DTM_EquipoIdeal);
 		scrollPane_EquipoIdeal.setViewportView(tableEquipoIdeal);
 		
 		JPanel panelEquipoIdeal = new JPanel();
-		panelEquipoIdeal.setBounds(10, 189, 658, 170);
+		panelEquipoIdeal.setBounds(0, 168, 668, 211);
 		panelGenerarEquipo.add(panelEquipoIdeal);
 		panelEquipoIdeal.setLayout(null);
 		panelEquipoIdeal.setVisible(false);
 		panelEquipoIdeal.add(scrollPane_EquipoIdeal);
+		
+		JLabel lblEquipoIdealEncontrado = new JLabel("Equipo Ideal ");
+		lblEquipoIdealEncontrado.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblEquipoIdealEncontrado.setBounds(10, 0, 438, 37);
+		panelEquipoIdeal.add(lblEquipoIdealEncontrado);
+		
+		JButton btnVerGrafico = new JButton("Ver Grafico");
+		btnVerGrafico.setEnabled(false);
+		btnVerGrafico.setBounds(569, 178, 89, 23);
+		panelEquipoIdeal.add(btnVerGrafico);
+		
+		JLabel lblRequerimientosCreados = new JLabel("Requerimientos Creados");
+		lblRequerimientosCreados.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblRequerimientosCreados.setBounds(10, 0, 316, 25);
+		panelGenerarEquipo.add(lblRequerimientosCreados);
 		
 		
 		
@@ -506,6 +520,7 @@ public class MainForm {
 				panelNuevaPersona.setVisible(true);
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 			}
 		});
 		mnNuevo.add(mntmNuevaPersona);
@@ -516,6 +531,7 @@ public class MainForm {
 				panelNuevoRequerimiento.setVisible(false);
 				panelNuevaIncompatibilidad.setVisible(true);
 				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				panelGenerarEquipo.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
@@ -529,6 +545,7 @@ public class MainForm {
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(true);
 				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				panelGenerarEquipo.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
@@ -547,7 +564,9 @@ public class MainForm {
 				panelNuevoRequerimiento.setVisible(false);
 				panelGenerarEquipo.setVisible(false);
 				panelConsultaPersona.setVisible(true);
+				panelGenerarEquipo.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+				
 			}
 		});
 		mnConsultar.add(mntmConsultarPersona);
