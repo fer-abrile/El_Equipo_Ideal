@@ -97,7 +97,7 @@ public class MainForm {
 		
 		final JPanel panelNuevaPersona = new JPanel();
 		panelNuevaPersona.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelNuevaPersona.setBounds(10, 1100, 678, 411);
+		panelNuevaPersona.setBounds(10, 11, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelNuevaPersona);
 		panelNuevaPersona.setLayout(null);
 		panelNuevaPersona.setVisible(false);
@@ -116,7 +116,7 @@ public class MainForm {
 		final JPanel panelNuevaIncompatibilidad = new JPanel();
 		panelNuevaIncompatibilidad.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		panelNuevaIncompatibilidad.setLayout(null);
-		panelNuevaIncompatibilidad.setBounds(10, 1100, 678, 411);
+		panelNuevaIncompatibilidad.setBounds(10, 11, 678, 411);
 		panelNuevaIncompatibilidad.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevaIncompatibilidad);
 		
@@ -262,7 +262,7 @@ public class MainForm {
 		
 		JPanel panelNuevoRequerimiento = new JPanel();
 		panelNuevoRequerimiento.setLayout(null);
-		panelNuevoRequerimiento.setBounds(10, 1100, 678, 411);
+		panelNuevoRequerimiento.setBounds(10, 11, 678, 411);
 		panelNuevoRequerimiento.setVisible(false);
 		EquipoIdealForm.getContentPane().add(panelNuevoRequerimiento);
 		
@@ -368,7 +368,7 @@ public class MainForm {
 		
 		JPanel panelConsultaPersona = new JPanel();
 		panelConsultaPersona.setVisible(false);
-		panelConsultaPersona.setBounds(10, 1100, 678, 411);
+		panelConsultaPersona.setBounds(10, 11, 678, 411);
 		EquipoIdealForm.getContentPane().add(panelConsultaPersona);
 		panelConsultaPersona.setLayout(null);
 		
@@ -481,6 +481,7 @@ public class MainForm {
 		panelEquipoIdeal.add(lblEquipoIdealEncontrado);
 		
 		JButton btnVerGrafico = new JButton("Ver Grafico");
+		btnVerGrafico.setEnabled(false);
 		btnVerGrafico.setBounds(569, 178, 89, 23);
 		panelEquipoIdeal.add(btnVerGrafico);
 		
