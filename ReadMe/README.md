@@ -327,7 +327,7 @@ Su diseño cuenta con un JFrame principal, 5 JPanel y 1 menuBar, mediante el cua
 
 La interfaz principal tiene el siguiente diseño.
 
-![Untitled](/ReadMe/ImagesUntitled.png)
+![Untitled.png](/ReadMe/Images/Untitled.png)
 
 Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes acciones, las cuales son.
 
