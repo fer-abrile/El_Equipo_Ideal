@@ -87,7 +87,7 @@ public class Controlador implements MouseListener{
 		
 		return persona;
 	}
-	public static void ConsultaPersona(int selectedIndex, JTextField textField_ConsultaNombre, JTextField textField_ConsultaRol, JTextField textField_ConsultaCalificacion) {
+	public static void consultaPersona(int selectedIndex, JTextField textField_ConsultaNombre, JTextField textField_ConsultaRol, JTextField textField_ConsultaCalificacion) {
 		
 		Persona personaConsulta = new Persona();		
 		personaConsulta = personas.get(selectedIndex);
@@ -175,7 +175,7 @@ public class Controlador implements MouseListener{
 	 * 
 	 */
 	
-	public static void GenerarEquipo(Object valorSeleccionado, DefaultTableModel DTM_EquipoIdeal) {
+	public static void generarEquipo(Object valorSeleccionado, DefaultTableModel DTM_EquipoIdeal, JPanel panelEquipoIdeal) {
 	
 		
         EquipoIdealThread equipoIdealThread = new EquipoIdealThread(personas, incompatibilidades, proyectosCreados.get(valorSeleccionado).getRolesCantidades());
@@ -188,9 +188,12 @@ public class Controlador implements MouseListener{
             List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
             
             if (equipoIdeal.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible.", "Error!",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible. \n"+ "Se solicita un equipo de "+equipoIdealThread.getRolesRequeridos() +" personas. Y solo se crearon "
+                		+personas.size(),
+                		"Error!",JOptionPane.ERROR_MESSAGE);
             } else {
             	crearModeloTablaEquipoIdeal(DTM_EquipoIdeal,equipoIdeal);
+            	panelEquipoIdeal.setVisible(true);
                 
             }
         } catch (InterruptedException e) {
@@ -261,7 +264,7 @@ public class Controlador implements MouseListener{
 	}
 	public static void crearModeloTablaEquipoIdeal(DefaultTableModel DTM_PersonasCreadas, List<Persona> equipoIdeal) {
 		
-		
+
         for (Persona persona : equipoIdeal) {
         	String [] data = {persona.getNombre(),persona.getRol(),Integer.toString(persona.getCalificacionHistorica())};
         	DTM_PersonasCreadas.addRow(data);

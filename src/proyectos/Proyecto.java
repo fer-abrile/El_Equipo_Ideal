@@ -28,10 +28,6 @@ public class Proyecto {
 	public Map<String, Integer> getRolesCantidades() {
 		return rolesCantidades;
 	}
-
-	public static void setRolesCantidades(Map<String, Integer> rolesCantidades) {
-		Proyecto.rolesCantidades = rolesCantidades;
-	}
 	
 	@Override
 	public String toString() {
