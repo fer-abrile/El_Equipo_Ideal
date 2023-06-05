@@ -39,8 +39,6 @@ public class EquipoIdeal {
         	
         });
         
-        //Collections.sort(equipoOptimo, Comparator.comparing(Persona::getRol));
-        
         return equipoOptimo;
     }
 
