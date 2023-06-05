@@ -44,7 +44,10 @@ public class EquipoIdeal {
         	}
         	
         });
-        
+        if(rolesRequeridos != equipoOptimo.size()) {
+        	List<Persona> equipoOptimo2 = new ArrayList<>();
+        	return equipoOptimo2;
+        }
         return equipoOptimo;
     }
 
