@@ -106,43 +106,51 @@ Su diseño es el siguiente:
 
 ```jsx
 public static List<Persona> encontrarEquipoOptimo(List<Persona> personas, List<String[]> incompatibilidades, Map<String, Integer> roles) {
-List<Persona> equipoOptimo = new ArrayList<>();
-    List<Persona> equipoActual = new ArrayList<>();
-    Map<String, Integer> rolActualCount = new HashMap<>();
+		int rolesRequeridos = generarRolesRequeridos(roles);
+		int personasCreadas = personas.size();
+		List<Persona> equipoOptimo = new ArrayList<>();
+        List<Persona> equipoActual = new ArrayList<>();
+        Map<String, Integer> rolActualCount = new HashMap<>();
+		
+		if (personasCreadas < rolesRequeridos)
+		{
+			return equipoOptimo;
+		}       
+        
+        Collections.sort(personas, Comparator.comparingInt(Persona::getCalificacionHistorica).reversed());
+        
+        for (Persona persona : personas) {
+            String rol = persona.getRol();
+            rolActualCount.put(rol, 0);
+        }
 
-    Collections.sort(personas, Comparator.comparingInt(Persona::getCalificacionHistorica).reversed());
-
-    for (Persona persona : personas) {
-        String rol = persona.getRol();
-        rolActualCount.put(rol, 0);
+        backtrack(personas, incompatibilidades, roles, equipoOptimo, equipoActual, rolActualCount, 0);
+        
+        Collections.sort(equipoOptimo, new Comparator<Persona>() {
+        	@Override
+        	public int compare(Persona persona1, Persona persona2) {
+        		return valorRol(persona1.getRol()) - valorRol(persona2.getRol());
+        	}        	
+        	private int valorRol(String rol) {
+        		switch(rol) {
+        			case "Líder de proyecto":
+        				return 1;
+        			case "Arquitecto":
+        				return 2;
+        			case "Programador":
+        				return 3;
+        			default:
+        				return 4;
+        		}
+        	}
+        	
+        });
+        if(rolesRequeridos != equipoOptimo.size()) {
+        	List<Persona> equipoOptimo2 = new ArrayList<>();
+        	return equipoOptimo2;
+        }
+        return equipoOptimo;
     }
-
-    backtrack(personas, incompatibilidades, roles, equipoOptimo, equipoActual, rolActualCount, 0);
-
-    Collections.sort(equipoOptimo, new Comparator<Persona>() {
-
-    	@Override
-    	public int compare(Persona persona1, Persona persona2) {
-    		return valorRol(persona1.getRol()) - valorRol(persona2.getRol());
-    	}
-
-    	private int valorRol(String rol) {
-    		switch(rol) {
-    			case "Líder de proyecto":
-    				return 1;
-    			case "Arquitecto":
-    				return 2;
-    			case "Programador":
-    				return 3;
-    			default:
-    				return 4;
-    		}
-    	}
-
-    });
-
-    return equipoOptimo;
-}
 
 ```
 
@@ -657,10 +665,9 @@ JOptionPane.showMessageDialog(null, proyectosCreados.get(object).toString(),"Inf
         List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
 
         if (equipoIdeal.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible. \\n"+ "Se solicita un equipo de "+equipoIdealThread.getRolesRequeridos() +" personas. Y solo se crearon "
-            		+personas.size(),
-            		"Error!",JOptionPane.ERROR_MESSAGE);
-        } else {
+                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible para el requerimiento seleccionado. \n",
+                		"Error!",JOptionPane.ERROR_MESSAGE);
+            }else {
         	crearModeloTablaEquipoIdeal(DTM_EquipoIdeal,equipoIdeal);
         	panelEquipoIdeal.setVisible(true);
 
