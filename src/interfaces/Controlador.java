@@ -188,8 +188,7 @@ public class Controlador implements MouseListener{
             List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
             
             if (equipoIdeal.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible. \n"+ "Se solicita un equipo de "+equipoIdealThread.getRolesRequeridos() +" personas. Y solo se crearon "
-                		+personas.size(),
+                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible para el requerimiento seleccionado. \n",
                 		"Error!",JOptionPane.ERROR_MESSAGE);
             } else {
             	crearModeloTablaEquipoIdeal(DTM_EquipoIdeal,equipoIdeal);
