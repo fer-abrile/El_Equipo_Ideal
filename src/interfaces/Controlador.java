@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.table.DefaultTableModel;
@@ -164,7 +165,7 @@ public class Controlador implements MouseListener{
 		textFieldTesterCant.setText("");		
 	}
 	public static void verInfoProyecto(Object object) {
-		System.out.println(	proyectosCreados.get(object).toString());
+		JOptionPane.showMessageDialog(null, proyectosCreados.get(object).toString(),"Info Proyecto", JOptionPane.INFORMATION_MESSAGE);
 		
 	}
 	
@@ -187,8 +188,7 @@ public class Controlador implements MouseListener{
             List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
             
             if (equipoIdeal.isEmpty()) {
-                System.out.println("No se encontro un equipo compatible.");
-           
+                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible.", "Error!",JOptionPane.ERROR_MESSAGE);
             } else {
             	crearModeloTablaEquipoIdeal(DTM_EquipoIdeal,equipoIdeal);
                 
