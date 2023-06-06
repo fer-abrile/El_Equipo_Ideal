@@ -967,5 +967,72 @@ public String toString() {
 	return builder.toString();
 }
 ```
+> ProyectoTest.java
+> 
 
-![Untitled](/ReadMe/Images/Nuevo_Requerimiento.png)
+Esta clase contiene los test para el objeto Proyecto.
+
+Los cuales son:
+
+```java
+@BeforeEach
+public void initialize() {
+proyecto = new Proyecto("ProyectoPrueba");
+proyecto.getRolesCantidades().put("Líder de proyecto", 1);
+proyecto.getRolesCantidades().put("Arquitecto", 2);
+proyecto.getRolesCantidades().put("Programador", 4);
+proyecto.getRolesCantidades().put("Tester", 5);
+}
+```
+
+```java
+@Test
+public void getRolesCantidadesIguales()
+{
+Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+rolesCantidadesTest.put("Líder de proyecto", 1);
+rolesCantidadesTest.put("Arquitecto", 2);
+rolesCantidadesTest.put("Programador", 4);
+rolesCantidadesTest.put("Tester", 5);
+Assert.assertRolesEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+}
+```
+
+```java
+@Test
+public void getRolesCantidadesDistintos()
+{
+Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+rolesCantidadesTest.put("Líder de proyecto", 3);
+rolesCantidadesTest.put("Arquitecto", 1);
+rolesCantidadesTest.put("Tester", 3);
+Assert.assertRolesNotEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+}
+```
+
+```java
+@Test
+public void getRolesCantidadesIgualVacios()
+{
+proyecto.getRolesCantidades().clear();
+Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+Assert.assertRolesEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+}
+```
+
+```java
+@Test
+public void getNombre()
+{
+assertEquals(proyecto.getNombre(), "ProyectoPrueba");
+}
+```
+
+```java
+@Test
+public void setNombre()
+{
+proyecto.setNombre("ProyectoPrueba2");
+assertEquals(proyecto.getNombre(), "ProyectoPrueba2");
+}
+```
