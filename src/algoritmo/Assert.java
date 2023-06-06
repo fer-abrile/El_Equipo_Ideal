@@ -25,5 +25,4 @@ public class Assert {
 			return false;
 		return true;
 	}
-	
 }
