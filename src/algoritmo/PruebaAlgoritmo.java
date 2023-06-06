@@ -38,12 +38,11 @@ public class PruebaAlgoritmo {
         rolesCantidades.put("Programador", 4);
         rolesCantidades.put("Tester", 5);
         
-        System.out.println("CLASE PRUEBA ROLES !!!!!!!!!!!!!!!!!!!!!!   "+rolesCantidades.toString());
+        
         EquipoIdealThread equipoIdealThread = new EquipoIdealThread(personas, incompatibilidades, rolesCantidades);
         Thread thread = new Thread(equipoIdealThread);
         thread.start();
 
-        
         try {
             thread.join();
             List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
@@ -61,6 +60,14 @@ public class PruebaAlgoritmo {
             // Manejar la excepcion si ocurre algun problema con el hilo
         }
         
-        
+      
     }
+	  public static int getRolesRequeridos(Map<String, Integer> roles){
+      	int cantidad =0;
+      	for (Map.Entry<String, Integer> entry : roles.entrySet()) {
+      		cantidad +=entry.getValue();
+      	}
+  		return cantidad;
+      	
+      }
 }

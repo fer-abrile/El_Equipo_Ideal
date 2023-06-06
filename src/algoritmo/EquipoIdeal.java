@@ -5,9 +5,16 @@ import personas.Persona;
 
 public class EquipoIdeal {
 	public static List<Persona> encontrarEquipoOptimo(List<Persona> personas, List<String[]> incompatibilidades, Map<String, Integer> roles) {
-        List<Persona> equipoOptimo = new ArrayList<>();
+		int rolesRequeridos = generarRolesRequeridos(roles);
+		int personasCreadas = personas.size();
+		List<Persona> equipoOptimo = new ArrayList<>();
         List<Persona> equipoActual = new ArrayList<>();
         Map<String, Integer> rolActualCount = new HashMap<>();
+		
+		if (personasCreadas < rolesRequeridos)
+		{
+			return equipoOptimo;
+		}       
         
         Collections.sort(personas, Comparator.comparingInt(Persona::getCalificacionHistorica).reversed());
         
@@ -22,8 +29,7 @@ public class EquipoIdeal {
         	@Override
         	public int compare(Persona persona1, Persona persona2) {
         		return valorRol(persona1.getRol()) - valorRol(persona2.getRol());
-        	}
-        	
+        	}        	
         	private int valorRol(String rol) {
         		switch(rol) {
         			case "Líder de proyecto":
@@ -38,9 +44,10 @@ public class EquipoIdeal {
         	}
         	
         });
-        
-        //Collections.sort(equipoOptimo, Comparator.comparing(Persona::getRol));
-        
+        if(rolesRequeridos != equipoOptimo.size()) {
+        	List<Persona> equipoOptimo2 = new ArrayList<>();
+        	return equipoOptimo2;
+        }
         return equipoOptimo;
     }
 
@@ -90,5 +97,14 @@ public class EquipoIdeal {
             }
         }
         return false;
+    }
+    
+    public static int generarRolesRequeridos(Map<String, Integer> roles){
+    	int cantidad =0;
+    	for (Map.Entry<String, Integer> entry : roles.entrySet()) {
+    		cantidad +=entry.getValue();
+    	}
+		return cantidad;
+    	
     }
 }

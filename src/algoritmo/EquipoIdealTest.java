@@ -82,5 +82,4 @@ class EquipoIdealTest {
         
 		Assert.assertPersonasEquals(esperado, EquipoIdeal.encontrarEquipoOptimo(personas, incompatibilidades, rolesCantidades));
 	}
-	
 }
