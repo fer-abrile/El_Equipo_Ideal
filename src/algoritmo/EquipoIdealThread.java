@@ -19,7 +19,15 @@ public class EquipoIdealThread implements Runnable {
     public List<Persona> getEquipoIdeal() {
         return equipoIdeal;
     }
-
+    
+    public int getRolesRequeridos(){
+    	int cantidad =0;
+    	for (Map.Entry<String, Integer> entry : roles.entrySet()) {
+    		cantidad +=entry.getValue();
+    	}
+		return cantidad;
+    	
+    }
     @Override
     public void run() {
         equipoIdeal = EquipoIdeal.encontrarEquipoOptimo(personas, incompatibilidades, roles);

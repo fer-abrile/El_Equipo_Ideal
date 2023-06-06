@@ -25,6 +25,8 @@ import javax.swing.JTable;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import java.awt.Canvas;
+import javax.swing.ImageIcon;
 
 
 public class MainForm {
@@ -89,9 +91,10 @@ public class MainForm {
 	 */
 	private void initialize() {
 		EquipoIdealForm = new JFrame();
+		EquipoIdealForm.setIconImage(null);
 		EquipoIdealForm.setTitle("Equipo Ideal 2.0");
 		EquipoIdealForm.setResizable(false);
-		EquipoIdealForm.setBounds(100, 100, 714, 522);
+		EquipoIdealForm.setBounds(100, 100, 710, 495);
 		EquipoIdealForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		EquipoIdealForm.getContentPane().setLayout(null);
 		
@@ -191,40 +194,7 @@ public class MainForm {
 		lblNombrePersona.setBounds(10, 17, 60, 14);
 		panelDatosPersona.add(lblNombrePersona);
 		lblNombrePersona.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnLimpiarPersona.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
-			}
-		});
-		
-		
-		
-		//Action Listener Paneles		
-		
-		
-		//  NUEVA PERSONAS ///
-		
-		btnGuardarPersona.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				try {
-					if(Controlador.formPersonaCompleto(textNombrePersona, comboRol, comboCalifHistorica)) {
-				Persona persona = new Persona();
-				String [] data = {textNombrePersona.getText(),comboRol.getSelectedItem().toString(),comboCalifHistorica.getSelectedItem().toString()};
-				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString(), comboCalifHistorica.getSelectedIndex(),DLM_Personas,DTM_PersonasCreadas,data);
-				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Por favor complete todos los campos", "Error!",JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Por favor complete todos los campos", "Ooooppss!",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		JButton btnAgregarPersonasIncom = new JButton("Agregar");
+			JButton btnAgregarPersonasIncom = new JButton("Agregar");
 
 		btnAgregarPersonasIncom.setBounds(182, 326, 89, 23);
 		panelNuevaIncompatibilidad.add(btnAgregarPersonasIncom);
@@ -466,6 +436,7 @@ public class MainForm {
 		
 		tableEquipoIdeal = new JTable();
 		tableEquipoIdeal.setModel(DTM_EquipoIdeal);
+		
 		scrollPane_EquipoIdeal.setViewportView(tableEquipoIdeal);
 		
 		JPanel panelEquipoIdeal = new JPanel();
@@ -480,24 +451,59 @@ public class MainForm {
 		lblEquipoIdealEncontrado.setBounds(10, 0, 438, 37);
 		panelEquipoIdeal.add(lblEquipoIdealEncontrado);
 		
-		JButton btnVerGrafico = new JButton("Ver Grafico");
-		btnVerGrafico.setEnabled(false);
-		btnVerGrafico.setBounds(569, 178, 89, 23);
-		panelEquipoIdeal.add(btnVerGrafico);
-		
 		JLabel lblRequerimientosCreados = new JLabel("Requerimientos Creados");
 		lblRequerimientosCreados.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblRequerimientosCreados.setBounds(10, 0, 316, 25);
 		panelGenerarEquipo.add(lblRequerimientosCreados);
 		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setIcon(new ImageIcon(MainForm.class.getResource("/interfaces/Equipo Ideal Logo.png")));
+		lblNewLabel.setBounds(10, 11, 678, 411);
+		EquipoIdealForm.getContentPane().add(lblNewLabel);
 		
+		
+		
+		//Action Listener Paneles		
+		
+		
+		//  NUEVA PERSONAS ///
+		btnGuardarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panelNuevaPersona.setVisible(true);
+				panelNuevaIncompatibilidad.setVisible(false);
+				panelNuevoRequerimiento.setVisible(false);
+				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
+				try {
+					if(Controlador.formPersonaCompleto(textNombrePersona, comboRol, comboCalifHistorica)) {
+				Persona persona = new Persona();
+				String [] data = {textNombrePersona.getText(),comboRol.getSelectedItem().toString(),comboCalifHistorica.getSelectedItem().toString()};
+				Controlador.crearPersona(persona,textNombrePersona.getText(),comboRol.getSelectedItem().toString(), comboCalifHistorica.getSelectedIndex(),DLM_Personas,DTM_PersonasCreadas,data);
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Por favor complete todos los campos", "Error!",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Por favor complete todos los campos", "Ooooppss!",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		btnLimpiarPersona.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
+			}
+		});
 		
 		// GENERAR EQUIPO //
 		btnGenerarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Controlador.GenerarEquipo(tableEquipoProyectos.getValueAt(tableEquipoProyectos.getSelectedRow(),0),DTM_EquipoIdeal);
-					panelEquipoIdeal.setVisible(true);
+					Controlador.generarEquipo(tableEquipoProyectos.getValueAt(tableEquipoProyectos.getSelectedRow(),0),DTM_EquipoIdeal,panelEquipoIdeal);
+					
 				} catch (Exception e2) {
 					JOptionPane.showMessageDialog(null, "Proyecto no seleccionado", "Error!",
 							JOptionPane.ERROR_MESSAGE);
@@ -545,7 +551,6 @@ public class MainForm {
 				panelNuevaIncompatibilidad.setVisible(false);
 				panelNuevoRequerimiento.setVisible(true);
 				panelConsultaPersona.setVisible(false);
-				panelGenerarEquipo.setVisible(false);
 				panelGenerarEquipo.setVisible(false);
 				Controlador.limpiarPersona(textNombrePersona, comboRol, comboCalifHistorica);
 			}
@@ -600,6 +605,10 @@ public class MainForm {
 		
 		btnAgregarPersonasIncom.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				panelNuevaPersona.setVisible(false);
+				panelNuevoRequerimiento.setVisible(false);
+				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				int[] seleccionado = listaPersonasCreadas.getSelectedIndices();
 	
 					if(Controlador.getPersonas().size() >= 2) {
@@ -635,7 +644,12 @@ public class MainForm {
 			}
 		});
 		btnRequerimientoGuardar.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
+				panelNuevaPersona.setVisible(false);
+				panelNuevaIncompatibilidad.setVisible(false);
+				panelConsultaPersona.setVisible(false);
+				panelGenerarEquipo.setVisible(false);
 				try {
 					String [] data = {textFieldNombreProyecto.getText(),textFieldLiderEquipoCant.getText(),textFieldArquitectoCant.getText(),textFieldProgramadorCant.getText(),textFieldTesterCant.getText()};
 					Controlador.guardarRequerimiento(textFieldNombreProyecto.getText(),Integer.parseInt(textFieldLiderEquipoCant.getText()),Integer.parseInt(textFieldArquitectoCant.getText()),
@@ -663,7 +677,7 @@ public class MainForm {
 		btnVerInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {		
 			try {
-				Controlador.ConsultaPersona(listPersonasCreadas.getSelectedIndex(),textField_ConsultaNombre,textField_ConsultaRol,textField_ConsultaCalificacion);
+				Controlador.consultaPersona(listPersonasCreadas.getSelectedIndex(),textField_ConsultaNombre,textField_ConsultaRol,textField_ConsultaCalificacion);
 				Controlador.crearModelIncompatibilidadesPorPersona(listPersonasCreadas.getSelectedIndex(),DLM_IncompatibilidadesPorPersona);
 			}catch (Exception e2) {
 				JOptionPane.showMessageDialog(null, "Seleccione al menos una persona", "Error!",JOptionPane.ERROR_MESSAGE);

@@ -106,43 +106,53 @@ Su diseño es el siguiente:
 
 ```jsx
 public static List<Persona> encontrarEquipoOptimo(List<Persona> personas, List<String[]> incompatibilidades, Map<String, Integer> roles) {
-List<Persona> equipoOptimo = new ArrayList<>();
-    List<Persona> equipoActual = new ArrayList<>();
-    Map<String, Integer> rolActualCount = new HashMap<>();
 
-    Collections.sort(personas, Comparator.comparingInt(Persona::getCalificacionHistorica).reversed());
+		int rolesRequeridos = generarRolesRequeridos(roles);
+		int personasCreadas = personas.size();
+		List<Persona> equipoOptimo = new ArrayList<>();
+        List<Persona> equipoActual = new ArrayList<>();
+        Map<String, Integer> rolActualCount = new HashMap<>();
+		
+		if (personasCreadas < rolesRequeridos)
+		{
+			return equipoOptimo;
+		}       
+        
+        Collections.sort(personas, Comparator.comparingInt(Persona::getCalificacionHistorica).reversed());
+        
+        for (Persona persona : personas) {
+            String rol = persona.getRol();
+            rolActualCount.put(rol, 0);
+        }
 
-    for (Persona persona : personas) {
-        String rol = persona.getRol();
-        rolActualCount.put(rol, 0);
+        backtrack(personas, incompatibilidades, roles, equipoOptimo, equipoActual, rolActualCount, 0);
+        
+        Collections.sort(equipoOptimo, new Comparator<Persona>() {
+        	@Override
+        	public int compare(Persona persona1, Persona persona2) {
+        		return valorRol(persona1.getRol()) - valorRol(persona2.getRol());
+        	}        	
+        	private int valorRol(String rol) {
+        		switch(rol) {
+        			case "Líder de proyecto":
+        				return 1;
+        			case "Arquitecto":
+        				return 2;
+        			case "Programador":
+        				return 3;
+        			default:
+        				return 4;
+        		}
+        	}
+        	
+        });
+        if(rolesRequeridos != equipoOptimo.size()) {
+        	List<Persona> equipoOptimo2 = new ArrayList<>();
+        	return equipoOptimo2;
+        }
+        return equipoOptimo;
     }
 
-    backtrack(personas, incompatibilidades, roles, equipoOptimo, equipoActual, rolActualCount, 0);
-
-    Collections.sort(equipoOptimo, new Comparator<Persona>() {
-
-    	@Override
-    	public int compare(Persona persona1, Persona persona2) {
-    		return valorRol(persona1.getRol()) - valorRol(persona2.getRol());
-    	}
-
-    	private int valorRol(String rol) {
-    		switch(rol) {
-    			case "Líder de proyecto":
-    				return 1;
-    			case "Arquitecto":
-    				return 2;
-    			case "Programador":
-    				return 3;
-    			default:
-    				return 4;
-    		}
-    	}
-
-    });
-
-    return equipoOptimo;
-}
 
 ```
 
@@ -327,18 +337,23 @@ Su diseño cuenta con un JFrame principal, 5 JPanel y 1 menuBar, mediante el cua
 
 La interfaz principal tiene el siguiente diseño.
 
-![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled.png)
+![Untitled](/ReadMe/Images/Home.png)
 
 Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes acciones, las cuales son.
 
 - **Nuevo**
     
-    ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%201.png)
+
+   ![Untitled](/ReadMe/Images/Nuevo.png)
     
     - **Nueva Persona:** Abrira un formulario con todos los campos requeridos para crear una persona, una vez introducidos los datos minimos de la persona como *********************************************************************************************************Nombre, Rol y Calificacion Historia*********************************************************************************************************, el programa archivara las personas creadas dentro de una tabla asi se tiene constancia de las personas creadas.
         
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%202.png)
-        
+      ![Untitled](/ReadMe/Images/Nueva_Persona.png)
+
+    ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%201.png)
+    
+    - **Nueva Persona:** Abrira un formulario con todos los campos requeridos para crear una persona, una vez introducidos los datos minimos de la persona como *********************************************************************************************************Nombre, Rol y Calificacion Historia*********************************************************************************************************, el programa archivara las personas creadas dentro de una tabla asi se tiene constancia de las personas creadas.
+              
         Los metodos utilizados para los botones ***************************************************Guardar y Limpiar***************************************************, son los siguientes. Ambos estan controlados por la clase *********************Controlador.java*********************
         
         Guardar:
@@ -378,7 +393,9 @@ Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes 
         
     - **Nueva Incompatibilidad:** Desde esta opcionse cargaran las incompatibilades entre las personas, a su vez nos mostrara una lista de todas las personas creadas anteriormente.
         
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%203.png)
+
+        ![Untitled](/ReadMe/Images/Alta_Compatibilidad.png)
+
         
         Para crear la Incompatibilidad, deberemos seleccionar 2(dos) personas y luego clic en ************************Agregar.************************
         
@@ -401,8 +418,9 @@ Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes 
         ```
         
     - **Nuevo Requerimiento:** La opcion *******************Nuevo Requerimiento*******************, tendra como funcion principal la carga de un Proyecto o Equipo, aqui indicaremos cuantas personas por rol necesitamos para un equipo, los roles requeridos son ******************************************************************************************************************************************************Lider de Equipo, Arquitecto, Programador y Tester.******************************************************************************************************************************************************
-        
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%204.png)
+
+        ![Untitled](/ReadMe/Images/Nuevo_Requerimiento.png)
+
         
         Una vez completados el Nombre del Proyecto y las cantidades por roles, tendremos que hacer clic en *********************Guardar********************* y la informacion del requerimiento sera visible en la tabla ******************************************************Proyectos Creados****************************************************** esta tabla dispone de un botn *********Info********* en caso que se quiera ver el detalle del proyecto.
         
@@ -453,7 +471,9 @@ Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes 
 - **Consultar**
     - **Consultar Persona:** El formulario Consultar, mostrara informacion sobre una persona, su Nombre, Rol y Calificacion y a su vez si tiene alguna Incompatibilidad con otra persona.
         
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%205.png)
+
+         ![Untitled](/ReadMe/Images/Consulta_Persona.png)
+
         
         Para conocer la informacion de una persona, debemos seleccionarla de la lista, y hacer clic en ************************Ver Info,************************ de esta manera el programa nos mostrara su informacion basica y las personas con la que es Incompatible.
         
@@ -476,15 +496,17 @@ Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes 
 - **Generar**
     - **Generar Equipo:** Por ultimo, la opcion de Generar Equipo, se va a encargar de resolver el problema principal del Trabajo Practico, una vez las personas creadas y cargadas sus incompatibilidades y a su vez los requerimientos, cuando querramos generar un Equipo, el programa nos mostrara una Tabla con los requerimientos creados; tendremos que seleccionar 1(uno) y luego hacer click en ****************************Generar Equipo****************************, entonces el programa nos mostrara una tabla con todas las personas de este equipo, o nos dira que no fue posible encontrar las personas para el equipo que buscamos.
         
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%206.png)
+
+       ![Untitled](/ReadMe/Images/Generar_Equipo.png)
         
         **Equipo Encontrado:**
         
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%207.png)
+        ![Untitled](/ReadMe/Images/Equipo_Generado.png)
         
         **Equipo NO Encontrado:**
         
-        ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%208.png)
+       ![Untitled](/ReadMe/Images/Error_GenerarEquipo.png)
+
         
         El codigo de **Generar Equipo** es controlado por la clase ********************************Controlador.java******************************** que a su vez hace uso de las clase *********************************EquipoIdeal.java.********************************* El codigo detras del boton ******************Generar Equipo, es el siguiente:******************
         
@@ -658,10 +680,11 @@ JOptionPane.showMessageDialog(null, proyectosCreados.get(object).toString(),"Inf
         List<Persona> equipoIdeal = equipoIdealThread.getEquipoIdeal();
 
         if (equipoIdeal.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible. \\n"+ "Se solicita un equipo de "+equipoIdealThread.getRolesRequeridos() +" personas. Y solo se crearon "
-            		+personas.size(),
-            		"Error!",JOptionPane.ERROR_MESSAGE);
-        } else {
+
+                JOptionPane.showMessageDialog(null, "No se encontro un equipo compatible para el requerimiento seleccionado. \n",
+                		"Error!",JOptionPane.ERROR_MESSAGE);
+            }else {
+
         	crearModeloTablaEquipoIdeal(DTM_EquipoIdeal,equipoIdeal);
         	panelEquipoIdeal.setVisible(true);
 
@@ -961,7 +984,72 @@ public String toString() {
 	return builder.toString();
 }
 ```
+> ProyectoTest.java
+> 
 
-![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%209.png)
+Esta clase contiene los test para el objeto Proyecto.
 
-![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%2010.png)
+Los cuales son:
+
+```java
+@BeforeEach
+public void initialize() {
+proyecto = new Proyecto("ProyectoPrueba");
+proyecto.getRolesCantidades().put("Líder de proyecto", 1);
+proyecto.getRolesCantidades().put("Arquitecto", 2);
+proyecto.getRolesCantidades().put("Programador", 4);
+proyecto.getRolesCantidades().put("Tester", 5);
+}
+```
+
+```java
+@Test
+public void getRolesCantidadesIguales()
+{
+Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+rolesCantidadesTest.put("Líder de proyecto", 1);
+rolesCantidadesTest.put("Arquitecto", 2);
+rolesCantidadesTest.put("Programador", 4);
+rolesCantidadesTest.put("Tester", 5);
+Assert.assertRolesEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+}
+```
+
+```java
+@Test
+public void getRolesCantidadesDistintos()
+{
+Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+rolesCantidadesTest.put("Líder de proyecto", 3);
+rolesCantidadesTest.put("Arquitecto", 1);
+rolesCantidadesTest.put("Tester", 3);
+Assert.assertRolesNotEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+}
+```
+
+```java
+@Test
+public void getRolesCantidadesIgualVacios()
+{
+proyecto.getRolesCantidades().clear();
+Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+Assert.assertRolesEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+}
+```
+
+```java
+@Test
+public void getNombre()
+{
+assertEquals(proyecto.getNombre(), "ProyectoPrueba");
+}
+```
+
+```java
+@Test
+public void setNombre()
+{
+proyecto.setNombre("ProyectoPrueba2");
+assertEquals(proyecto.getNombre(), "ProyectoPrueba2");
+}
+```
