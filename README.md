@@ -349,9 +349,7 @@ Luego utilizandolas opciones de la barra de menu, prodremos realizar diferentes 
     - **Nueva Persona:** Abrira un formulario con todos los campos requeridos para crear una persona, una vez introducidos los datos minimos de la persona como *********************************************************************************************************Nombre, Rol y Calificacion Historia*********************************************************************************************************, el programa archivara las personas creadas dentro de una tabla asi se tiene constancia de las personas creadas.
         
       ![Untitled](/ReadMe/Images/Nueva_Persona.png)
-
-    ![Untitled](Trabajo%20Practico%203%20-%20Equipo%20Ideal%209b764a90e0774902bb1f91a0100850f6/Untitled%201.png)
-    
+   
     - **Nueva Persona:** Abrira un formulario con todos los campos requeridos para crear una persona, una vez introducidos los datos minimos de la persona como *********************************************************************************************************Nombre, Rol y Calificacion Historia*********************************************************************************************************, el programa archivara las personas creadas dentro de una tabla asi se tiene constancia de las personas creadas.
               
         Los metodos utilizados para los botones ***************************************************Guardar y Limpiar***************************************************, son los siguientes. Ambos estan controlados por la clase *********************Controlador.java*********************
