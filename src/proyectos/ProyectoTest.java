@@ -3,32 +3,49 @@ package proyectos;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ProyectoTest {
-	Proyecto proyecto = new Proyecto("ProyectoPrueba"); 
+	Proyecto proyecto; 
 	
-	@Before
-	public void initialize() throws Exception {
-		Map<String, Integer> rolesCantidades = new HashMap<>();
-        rolesCantidades.put("Líder de proyecto", 1);
-        rolesCantidades.put("Arquitecto", 2);
-        rolesCantidades.put("Programador", 4);
-        rolesCantidades.put("Tester", 5);
-        
-        Proyecto.setRolesCantidades(rolesCantidades);
+	@BeforeEach 
+	public void initialize() {
+		proyecto = new Proyecto("ProyectoPrueba");
+		proyecto.getRolesCantidades().put("Líder de proyecto", 1);
+		proyecto.getRolesCantidades().put("Arquitecto", 2);
+		proyecto.getRolesCantidades().put("Programador", 4);
+		proyecto.getRolesCantidades().put("Tester", 5);
 	}
 	
 	@Test
-	public void getRolesCantidades() 
+	public void getRolesCantidadesIguales() 
 	{
 		Map<String, Integer> rolesCantidadesTest = new HashMap<>();
 		rolesCantidadesTest.put("Líder de proyecto", 1);
 		rolesCantidadesTest.put("Arquitecto", 2);
         rolesCantidadesTest.put("Programador", 4);
         rolesCantidadesTest.put("Tester", 5);
+        Assert.assertRolesEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+	}
+	
+	@Test
+	public void getRolesCantidadesDistintos() 
+	{
+		Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+		rolesCantidadesTest.put("Líder de proyecto", 3);
+		rolesCantidadesTest.put("Arquitecto", 1);
+        rolesCantidadesTest.put("Tester", 3);
         
+        Assert.assertRolesNotEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
+	}
+	
+	@Test
+	public void getRolesCantidadesIgualVacios() 
+	{
+		proyecto.getRolesCantidades().clear();
+		Map<String, Integer> rolesCantidadesTest = new HashMap<>();
+		
         Assert.assertRolesEquals(proyecto.getRolesCantidades(), rolesCantidadesTest);
 	}
 	

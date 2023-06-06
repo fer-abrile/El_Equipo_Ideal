@@ -82,4 +82,51 @@ class EquipoIdealTest {
         
 		Assert.assertPersonasEquals(esperado, EquipoIdeal.encontrarEquipoOptimo(personas, incompatibilidades, rolesCantidades));
 	}
+	
+	@Test
+	public void ConPersonasInsuficientes() 
+	{
+		List<Persona> personas = new ArrayList<>();
+		personas.add(new Persona("Persona1", "Líder de proyecto", 4));
+		personas.add(new Persona("Persona3", "Arquitecto", 5));
+		personas.add(new Persona("Persona5", "Programador", 4));
+		personas.add(new Persona("Persona8", "Tester", 5));
+		
+		List<String[]> incompatibilidades = new ArrayList<>();
+		incompatibilidades.add(new String[]{"Persona1", "Persona3"});
+		
+        Map<String, Integer> rolesCantidades = new HashMap<>();
+        rolesCantidades.put("Líder de proyecto", 2);
+        rolesCantidades.put("Arquitecto", 2);
+        rolesCantidades.put("Programador", 2);
+        rolesCantidades.put("Tester", 2);
+		
+        List<Persona> esperado = new ArrayList<>();
+        
+		Assert.assertPersonasEquals(esperado, EquipoIdeal.encontrarEquipoOptimo(personas, incompatibilidades, rolesCantidades));
+	}
+	
+	@Test
+	public void ConUnRolDeMas() 
+	{
+		List<Persona> personas = new ArrayList<>();
+		personas.add(new Persona("Persona1", "Líder de proyecto", 4));
+		personas.add(new Persona("Persona5", "Programador", 4));
+		personas.add(new Persona("Persona6", "Programador", 3));
+		personas.add(new Persona("Persona8", "Tester", 5));
+		
+		List<String[]> incompatibilidades = new ArrayList<>();
+		incompatibilidades.add(new String[]{"Persona1", "Persona3"});
+		
+        Map<String, Integer> rolesCantidades = new HashMap<>();
+        rolesCantidades.put("Líder de proyecto", 1);
+        rolesCantidades.put("Arquitecto", 1);
+        rolesCantidades.put("Programador", 1);
+        rolesCantidades.put("Tester", 1);
+		
+        List<Persona> esperado = new ArrayList<>();
+        
+		Assert.assertPersonasEquals(esperado, EquipoIdeal.encontrarEquipoOptimo(personas, incompatibilidades, rolesCantidades));
+	}
+	
 }
