@@ -2,9 +2,9 @@ package principal;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import interfaces.MainForm;
 import personas.Persona;
+import interfaces.MainForm;
+
 @SuppressWarnings("unused")
 public class main {
 
